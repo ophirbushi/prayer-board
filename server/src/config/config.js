@@ -1,5 +1,5 @@
 module.exports = {
   serviceName: 'Prayer Board Service',
-  databaseURI: 'mongodb://localhost:27017',
+  databaseURI: process.env.databaseURI || 'mongodb://localhost:27017/prayer-board',
   port: 8080,
 };
