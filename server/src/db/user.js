@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  username: String
+  username: String,
+  boardIds: { type: [], default: [] }
 });
 
 const User = mongoose.model('User', userSchema);
