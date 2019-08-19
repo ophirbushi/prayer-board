@@ -7,6 +7,8 @@
 
 <button (click)="addBoard()" [disabled]="!newBoardName">Add Board</button>
 
-<ul>
-    <li *ngFor="let board of boards">{{ board }}</li>
+<ul *ngIf="boards$ | async as boards">
+    <li *ngFor="let board of boards">
+        <a [routerLink]="['/board', board._id]">{{ board.name }}</a>
+    </li>
 </ul>
