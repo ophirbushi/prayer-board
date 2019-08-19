@@ -30,13 +30,13 @@ export class HomeComponent implements OnInit {
 
   async addBoard() {
     const user = this.state.get('user');
-    this.toast.show('one two three', { type: 'info' });
-    // try {
-    //   const board = await this.boardService.createBoard({ userId: user._id, boardName: this.newBoardName })
-    //     .toPromise();
-    //   this.router.navigate(['/board', board._id]);
-    // } catch (err) {
-    // }
+    try {
+      const board = await this.boardService.createBoard({ userId: user._id, boardName: this.newBoardName })
+        .toPromise();
+      this.router.navigate(['/board', board._id]);
+    } catch (err) {
+      this.toast.show('An error occured', { type: 'error' });
+    }
   }
 
 }
