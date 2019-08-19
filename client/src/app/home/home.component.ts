@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth/auth.service';
+import { BoardService } from '../shared/board.service';
 
 @Component({
   selector: 'app-home',
@@ -7,11 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  boards = ['One', 'Two', 'Three', 'Four', 'Five'];
+  userId: string = this.authService.getUserId();
+  boards = [];
+  newBoardName: string;
 
-  constructor() { }
+  constructor(private authService: AuthService, private boardService: BoardService) { }
 
   ngOnInit() {
+  }
+
+  addBoard() {
+    this.boardService.createBoard({ userId: this.userId, boardName: this.newBoardName }).toPromise();
   }
 
 }

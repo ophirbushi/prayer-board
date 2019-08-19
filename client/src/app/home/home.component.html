@@ -1,7 +1,10 @@
 <h1>My Boards</h1>
 
-
-<button>Add Board</button>
+<div>
+    <label>New Board Name:</label>
+    <input [(ngModel)]="newBoardName" />
+</div>
+<button (click)="addBoard()" [disabled]="!newBoardName">Add Board</button>
 
 <ul>
     <li *ngFor="let board of boards">{{ board }}</li>
