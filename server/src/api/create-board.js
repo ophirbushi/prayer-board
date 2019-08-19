@@ -15,6 +15,7 @@ module.exports = async (req, res) => {
     }
 
     const board = new Board({
+      name: boardName,
       adminUserId: userId,
       userIds: [userId]
     });
