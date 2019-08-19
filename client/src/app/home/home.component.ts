@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
 import { BoardService } from '../shared/board.service';
+import { AppState } from '../app-state';
+import { Observable } from 'rxjs';
+import { User } from '../shared/models';
 
 @Component({
   selector: 'app-home',
@@ -9,17 +11,19 @@ import { BoardService } from '../shared/board.service';
 })
 export class HomeComponent implements OnInit {
 
-  userId: string = this.authService.getUserId();
+  user$ : Observable<User> = this.state.select('user');
   boards = [];
   newBoardName: string;
 
-  constructor(private authService: AuthService, private boardService: BoardService) { }
+  constructor(private boardService: BoardService,
+    private state: AppState) { }
 
   ngOnInit() {
   }
 
   addBoard() {
-    this.boardService.createBoard({ userId: this.userId, boardName: this.newBoardName }).toPromise();
+    const user = this.state.get('user');
+    this.boardService.createBoard({ userId: user._id, boardName: this.newBoardName }).toPromise();
   }
 
 }

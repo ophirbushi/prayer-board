@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { User } from '../shared/models';
 
 
 @Injectable()
@@ -9,15 +10,7 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   loginOrRegister({ username }: { username: string }) {
-    return this.http.post(`${this.baseUrl}/login-register`, { username },
+    return this.http.post<User>(`${this.baseUrl}/login-register`, { username },
       { reportProgress: false, observe: 'body' });
-  }
-
-  getUserId() {
-    const user = JSON.parse(localStorage.getItem('auth') || 'null');
-    if (!user) {
-      return null;
-    }
-    return user._id;
   }
 }

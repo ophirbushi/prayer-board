@@ -1,9 +1,10 @@
-<h1>My Boards</h1>
+<h1>Hello {{ (user$ | async)?.username }}!</h1>
 
 <div>
     <label>New Board Name:</label>
     <input [(ngModel)]="newBoardName" />
 </div>
+
 <button (click)="addBoard()" [disabled]="!newBoardName">Add Board</button>
 
 <ul>
