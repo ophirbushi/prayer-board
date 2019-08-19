@@ -1,0 +1,21 @@
+:host {
+  position: fixed;
+  bottom: 0;
+  left: 40px;
+  width: calc(100% - 80px);
+  padding: 0 25px;
+  box-sizing: border-box;
+  transform: translateY(100%);
+  display: block;
+  background: rgb(70, 70, 70);
+  color: white;
+  transition: 0.2s transform ease-out;
+
+  &.show {
+    transform: translateY(0);
+  }
+
+  &.error {
+    background-color: rgb(248, 75, 48);
+  }
+}

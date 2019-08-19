@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AuthModule } from './auth/auth.module';
+import { ToastModule } from './shared/lib/toast/toast.module';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { AuthModule } from './auth/auth.module';
     BrowserModule,
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    AuthModule
+    AuthModule,
+    ToastModule
   ],
   providers: [],
   bootstrap: [AppComponent]

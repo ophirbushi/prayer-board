@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { User, Board } from '../shared/models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { Toast } from '../shared/lib/toast/toast.service';
 
 @Component({
   selector: 'app-home',
@@ -20,7 +21,8 @@ export class HomeComponent implements OnInit {
   constructor(private boardService: BoardService,
     private state: AppState,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    private toast: Toast) { }
 
   ngOnInit() {
     this.boards$ = this.route.data.pipe(map(data => data.boards));
@@ -28,12 +30,13 @@ export class HomeComponent implements OnInit {
 
   async addBoard() {
     const user = this.state.get('user');
-    try {
-      const board = await this.boardService.createBoard({ userId: user._id, boardName: this.newBoardName })
-        .toPromise();
-      this.router.navigate(['/board', board._id]);
-    } catch (err) {
-    }
+    this.toast.show('one two three', { type: 'info' });
+    // try {
+    //   const board = await this.boardService.createBoard({ userId: user._id, boardName: this.newBoardName })
+    //     .toPromise();
+    //   this.router.navigate(['/board', board._id]);
+    // } catch (err) {
+    // }
   }
 
 }

@@ -6,8 +6,6 @@ import { FormsModule } from '@angular/forms';
 import { HomeResolve } from './home.resolve';
 import { RouterModule } from '@angular/router';
 
-
-
 @NgModule({
   declarations: [HomeComponent],
   imports: [
