@@ -1,11 +1,31 @@
 <p>board name</p>
 
+<form [formGroup]="form" (ngSubmit)="createPrayerRequest()">
+    <h3>Add Prayer Request</h3>
+    <div>
+        <label>Title</label>
+        <input formControlName="title" />
+    </div>
+    <div>
+        <label>Description</label>
+        <textarea formControlName="description"></textarea>
+    </div>
+    <button type="submit" [disabled]="!form.valid">Add Prayer Request</button>
+</form>
+
 <table>
-    <tbody>
+    <thead>
         <tr>
-            <td>Person1</td>
-            <td>Request prayer for x</td>
-            <td>Indicate prayer</td>
+            <th>Name</th>
+            <th>Title</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let request of requests">
+            <td>(Name)</td>
+            <td>{{ request.title }}</td>
+            <td>{{ request.description }}</td>
         </tr>
     </tbody>
 </table>

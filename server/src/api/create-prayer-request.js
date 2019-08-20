@@ -2,9 +2,9 @@ const { PrayerRequest } = require('../db/prayer-request');
 const { Board } = require('../db/board');
 
 module.exports = async (req, res) => {
-  const { boardId, text, description } = req.body;
+  const { boardId, title, description } = req.body;
 
-  if (!boardId || !text || !description) {
+  if (!boardId || !title || !description) {
     return res.sendStatus(400);
   }
 
@@ -15,7 +15,7 @@ module.exports = async (req, res) => {
       return res.sendStatus(404);
     }
 
-    const prayerRequest = new PrayerRequest({ text, description });
+    const prayerRequest = new PrayerRequest({ title, description });
     board.prayerRequestIds = board.prayerRequestIds.concat(prayerRequest._id);
     await Promise.all([prayerRequest.save(), board.save()]);
     return res.send(prayerRequest);

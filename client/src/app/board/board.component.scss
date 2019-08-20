@@ -1,0 +1,20 @@
+form {
+  display: block;
+  margin-bottom: 8px;
+
+  div {
+    margin-bottom: 15px;
+
+    label,
+    input,
+    textarea {
+      display: block;
+      width: 100%;
+    }
+
+    label {
+      margin-bottom: 8px;
+    }
+
+  }
+}
