@@ -7,6 +7,7 @@ module.exports = async (req, res) => {
   if (!userId || !boardName) {
     return res.sendStatus(400);
   }
+
   try {
     const user = await User.findById(userId);
 
