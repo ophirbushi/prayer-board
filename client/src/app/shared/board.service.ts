@@ -14,4 +14,9 @@ export class BoardService {
         return this.http.post<Board>(`${this.baseUrl}/create`, payload,
             { observe: 'body', reportProgress: false });
     }
+
+    getBoardPrayerRequests({ boardId }) {
+        return this.http.get(`${this.baseUrl}/${boardId}/prayer-requests`,
+            { observe: 'body', reportProgress: false });
+    }
 }
