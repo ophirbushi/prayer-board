@@ -9,7 +9,7 @@ export interface User extends Identifiable {
 
 export interface Board extends Identifiable {
     name: string;
-    adminUsers: string;
+    adminUser: string;
     users: string[];
     prayerRequests: any[];
 }

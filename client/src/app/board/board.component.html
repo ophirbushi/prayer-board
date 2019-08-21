@@ -1,6 +1,14 @@
 <ng-container *ngIf="board$ | async as board">
     <p>{{ board.name}}</p>
 
+    <div class="users-row">
+        <h3>Board Users</h3>
+        <ul class="users-list">
+            <li class="user-item" *ngFor="let user of board.users" [class.admin]="isAdmin(user)">
+                {{ user.username }}</li>
+        </ul>
+    </div>
+
     <form [formGroup]="form" (ngSubmit)="createPrayerRequest()">
         <h3>Add Prayer Request</h3>
         <div>

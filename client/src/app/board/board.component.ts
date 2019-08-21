@@ -7,7 +7,7 @@ import { take, takeUntil, pluck } from 'rxjs/operators';
 import { Toast } from '../shared/lib/toast/toast.service';
 import { Subject, Observable } from 'rxjs';
 import { AppState } from '../app-state';
-import { Board } from '../shared/models';
+import { Board, User } from '../shared/models';
 
 @Component({
   selector: 'app-board',
@@ -62,6 +62,10 @@ export class BoardComponent implements OnInit, OnDestroy {
       }, err => {
         this.toast.show('An error occured', { type: 'error' });
       });
+  }
+
+  isAdmin(user: User): boolean {
+    return snapshot(this.board$).adminUser === user._id;
   }
 
 }
