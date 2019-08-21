@@ -21,6 +21,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     description: new FormControl(null, Validators.required)
   });
   requests = [];
+  user: User = this.state.get('user');
 
   private componentDestroy = new Subject();
 
@@ -58,14 +59,25 @@ export class BoardComponent implements OnInit, OnDestroy {
       .subscribe(request => {
         this.toast.show('Request saved');
         this.form.reset();
-        this.requests.push(request);
+        this.requests.push({ ...request, user: this.user });
       }, err => {
         this.toast.show('An error occured', { type: 'error' });
+        console.error(err);
       });
   }
 
   isAdmin(user: User): boolean {
     return snapshot(this.board$).adminUser === user._id;
+  }
+
+  async deleteRequest(index: number) {
+    try {
+      await this.prayerRequestService.delete(this.requests[index]._id).toPromise();
+      this.requests.splice(index, 1);
+    } catch (err) {
+      this.toast.show('An error occured', { type: 'error' });
+      console.error(err);
+    }
   }
 
 }

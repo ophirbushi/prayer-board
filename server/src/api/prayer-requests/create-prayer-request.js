@@ -1,6 +1,6 @@
-const { PrayerRequest } = require('../db/prayer-request');
-const { Board } = require('../db/board');
-const { User } = require('../db/user');
+const { PrayerRequest } = require('../../db/prayer-request');
+const { Board } = require('../../db/board');
+const { User } = require('../../db/user');
 
 module.exports = async (req, res) => {
   const {

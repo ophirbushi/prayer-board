@@ -14,4 +14,8 @@ export class PrayerRequestService {
         return this.http.post(`${this.baseUrl}/create`, data);
     }
 
+    delete(id: string) {
+        return this.http.delete(`${this.baseUrl}/${id}`);
+    }
+
 }

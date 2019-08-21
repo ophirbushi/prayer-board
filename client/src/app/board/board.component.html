@@ -28,13 +28,15 @@
                 <th>Name</th>
                 <th>Title</th>
                 <th>Description</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let request of requests">
+            <tr *ngFor="let request of requests; let i = index;">
                 <td>{{ request.user?.username }}</td>
                 <td>{{ request.title }}</td>
                 <td>{{ request.description }}</td>
+                <td><button *ngIf="request.user?._id === user._id" (click)="deleteRequest(i)">Delete</button></td>
             </tr>
         </tbody>
     </table>
