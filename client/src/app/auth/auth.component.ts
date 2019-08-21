@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from './auth.service';
 import { AppState } from '../app-state';
+import { Toast } from '../shared/lib/toast/toast.service';
+import { UsersService } from '../shared/users.service';
 
 @Component({
   selector: 'app-auth',
@@ -14,7 +15,12 @@ export class AuthComponent implements OnInit {
     username: new FormControl()
   });
 
-  constructor(private router: Router, private authService: AuthService, private state: AppState) { }
+  constructor(
+    private router: Router,
+    private state: AppState,
+    private toast: Toast,
+    private usersService: UsersService
+  ) { }
 
   ngOnInit() {
   }
@@ -23,11 +29,11 @@ export class AuthComponent implements OnInit {
     const { username } = this.form.value;
 
     try {
-      const user = await this.authService.loginOrRegister({ username }).toPromise();
+      const user = await this.usersService.loginRegister({ username }).toPromise();
       this.state.set('user', user);
       this.router.navigate(['/']);
     } catch (err) {
-      console.error(err);
+      this.toast.show('An error occured', { type: 'error' });
     }
   }
 

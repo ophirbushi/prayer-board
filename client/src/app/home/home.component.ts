@@ -25,7 +25,7 @@ export class HomeComponent implements OnInit {
     private toast: Toast) { }
 
   ngOnInit() {
-    this.boards$ = this.route.data.pipe(map(data => data.boards));
+    this.boards$ = this.route.data.pipe(map(data => data.user.boards));
   }
 
   async addBoard() {

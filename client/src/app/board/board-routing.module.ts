@@ -5,7 +5,7 @@ import { BoardComponent } from './board.component';
 import { BoardResolve } from './board.resolve';
 
 
-const routes: Routes = [{ path: '', component: BoardComponent, resolve: { prayerRequests: BoardResolve } }];
+const routes: Routes = [{ path: '', component: BoardComponent, resolve: { board: BoardResolve } }];
 
 @NgModule({
   declarations: [],

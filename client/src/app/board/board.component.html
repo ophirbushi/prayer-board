@@ -1,31 +1,33 @@
-<p>board name</p>
+<ng-container *ngIf="board$ | async as board">
+    <p>{{ board.name}}</p>
 
-<form [formGroup]="form" (ngSubmit)="createPrayerRequest()">
-    <h3>Add Prayer Request</h3>
-    <div>
-        <label>Title</label>
-        <input formControlName="title" />
-    </div>
-    <div>
-        <label>Description</label>
-        <textarea formControlName="description"></textarea>
-    </div>
-    <button type="submit" [disabled]="!form.valid">Add Prayer Request</button>
-</form>
+    <form [formGroup]="form" (ngSubmit)="createPrayerRequest()">
+        <h3>Add Prayer Request</h3>
+        <div>
+            <label>Title</label>
+            <input formControlName="title" />
+        </div>
+        <div>
+            <label>Description</label>
+            <textarea formControlName="description"></textarea>
+        </div>
+        <button type="submit" [disabled]="!form.valid">Add Prayer Request</button>
+    </form>
 
-<table>
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Title</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let request of requests">
-            <td>(Name)</td>
-            <td>{{ request.title }}</td>
-            <td>{{ request.description }}</td>
-        </tr>
-    </tbody>
-</table>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Title</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let request of requests">
+                <td>{{ request.user?.username }}</td>
+                <td>{{ request.title }}</td>
+                <td>{{ request.description }}</td>
+            </tr>
+        </tbody>
+    </table>
+</ng-container>

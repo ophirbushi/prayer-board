@@ -18,7 +18,7 @@ module.exports = async (req, res) => {
       return res.sendStatus(404);
     }
 
-    const prayerRequest = new PrayerRequest({ title, description });
+    const prayerRequest = new PrayerRequest({ title, description, user: userId });
     board.prayerRequests = board.prayerRequests.concat(prayerRequest._id);
     user.prayerRequests = user.prayerRequests.concat(prayerRequest._id);
 

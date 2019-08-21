@@ -3,9 +3,11 @@ import { PrayerRequestService } from '../shared/prayer-requests.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { snapshot } from '../shared/utils/snapshot';
-import { take, takeUntil, map } from 'rxjs/operators';
+import { take, takeUntil, pluck } from 'rxjs/operators';
 import { Toast } from '../shared/lib/toast/toast.service';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
+import { AppState } from '../app-state';
+import { Board } from '../shared/models';
 
 @Component({
   selector: 'app-board',
@@ -13,27 +15,28 @@ import { Subject } from 'rxjs';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit, OnDestroy {
-
+  board$: Observable<Board>;
   form = new FormGroup({
     title: new FormControl(null, Validators.required),
     description: new FormControl(null, Validators.required)
   });
-
   requests = [];
 
   private componentDestroy = new Subject();
 
   constructor(
+    private state: AppState,
     private route: ActivatedRoute,
     private prayerRequestService: PrayerRequestService,
     private toast: Toast
   ) { }
 
   ngOnInit() {
-    this.route.data.pipe(
-      takeUntil(this.componentDestroy),
-      map(data => data.prayerRequests)
-    ).subscribe(prayerRequests => this.requests = prayerRequests);
+    this.board$ = this.route.data.pipe(pluck('board'));
+
+    this.board$.pipe(
+      takeUntil(this.componentDestroy)
+    ).subscribe(board => this.requests = board.prayerRequests);
   }
 
   ngOnDestroy() {
@@ -45,8 +48,9 @@ export class BoardComponent implements OnInit, OnDestroy {
     const { value } = this.form;
 
     const boardId = snapshot(this.route.paramMap).get('id');
+    const userId = this.state.get('user')._id;
 
-    this.prayerRequestService.create({ boardId, ...value })
+    this.prayerRequestService.create({ boardId, userId, ...value })
       .pipe(
         take(1),
         takeUntil(this.componentDestroy)

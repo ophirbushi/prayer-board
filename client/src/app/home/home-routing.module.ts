@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home.component';
 import { HomeResolve } from './home.resolve';
 
-const routes: Routes = [{ path: '', component: HomeComponent, resolve: { boards: HomeResolve } }];
+const routes: Routes = [{ path: '', component: HomeComponent, resolve: { user: HomeResolve } }];
 
 @NgModule({
   declarations: [],

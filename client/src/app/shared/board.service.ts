@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Board } from './models';
 
 @Injectable({
@@ -11,12 +11,16 @@ export class BoardService {
     constructor(private http: HttpClient) { }
 
     createBoard(payload: { userId, boardName }) {
-        return this.http.post<Board>(`${this.baseUrl}/create`, payload,
-            { observe: 'body', reportProgress: false });
+        return this.http.post<Board>(`${this.baseUrl}/create`, payload);
     }
 
-    getBoardPrayerRequests({ boardId }) {
-        return this.http.get(`${this.baseUrl}/${boardId}/prayer-requests`,
-            { observe: 'body', reportProgress: false });
+    getBoard({ boardId }: { boardId: string }, deep = false) {
+        let params = new HttpParams();
+
+        if (deep) {
+            params = params.set('deep', '1');
+        }
+
+        return this.http.get<Board>(`${this.baseUrl}/${boardId}`, { params });
     }
 }
