@@ -1,9 +1,9 @@
-<!-- <h1 class="app-h1">Hello <span class="username">{{ (user$ | async)?.username }}</span>!</h1> -->
-
 <div class="home-top-container">
-        <h2 class="app-h2">Your boards</h2>
-        <button mat-raised-button color="accent" class="create-board-btn">Create board</button>
-    </div>
+    <h2 class="app-h2">Your boards</h2>
+    <button mat-raised-button color="accent" class="create-board-btn" (click)="createBoardPopup()">
+        Create board
+    </button>
+</div>
 
 <ng-container *ngIf="!(boards$ | async)?.length" [ngTemplateOutlet]="noBoardsTpl"></ng-container>
 <ng-container *ngIf="(boards$ | async)?.length" [ngTemplateOutlet]="boardsTpl"></ng-container>
@@ -13,22 +13,6 @@
 </ng-template>
 
 <ng-template #boardsTpl>
-    <!-- <div>
-        <label>New Board Name:</label>
-        <input [(ngModel)]="newBoardName" />
-    </div> -->
-
-    <!-- <button mat-raised-button color="primary" (click)="addBoard()" >Add Board</button> -->
-
-  
-
-
-    <!-- <mat-list role="list" *ngIf="boards$ | async as boards">
-        <mat-list-item role="listitem" *ngFor="let board of boards">
-            <a [routerLink]="['/board', board._id]">{{ board.name }}</a>
-        </mat-list-item>
-    </mat-list> -->
-
     <div *ngIf="boards$ | async as boards" class="row">
         <div *ngFor="let board of boards" class="col-sm-6 col-md-4 col-lg-3">
             <a [routerLink]="['/board', board._id]">
@@ -38,5 +22,14 @@
             </a>
         </div>
     </div>
+</ng-template>
 
+<ng-template #newBoardPopupTpl>
+    <form class="app-form" [formGroup]="newBoardForm" (ngSubmit)="addBoard()">
+        <mat-form-field class="app-form-field">
+            <input matInput placeholder="Board name" formControlName="boardName">
+            <mat-error>Required.</mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="!newBoardForm.valid">Submit</button>
+    </form>
 </ng-template>
