@@ -2,3 +2,20 @@ nav ul {
   padding: 0;
   list-style: none;
 }
+
+a {
+  text-decoration: none;
+  color: initial;
+}
+
+.header-spacer {
+  flex: 1 1 auto;
+}
+
+.profile-menu-text {
+  padding: 16px;
+}
+
+.username {
+  font-weight: bold;
+}

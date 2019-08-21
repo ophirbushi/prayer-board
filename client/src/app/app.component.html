@@ -1,17 +1,20 @@
-<header>
-    <nav>
-        <ul>
-            <li>
-                <a [routerLink]="['/']">Prayer Request Board</a>
-            </li>
-            <li *ngIf="!(user$ | async)">
-                <a [routerLink]="['/auth']">Login</a>
-            </li>
-            <li *ngIf="(user$ | async)">
-                <a href="" (click)="logout()">Logout</a>
-            </li>
-        </ul>
+<mat-toolbar color="primary">
+    <a [routerLink]="['/']">Prayer Request Board</a>
+    <span class="header-spacer"></span>
 
-    </nav>
-</header>
+    <button mat-icon-button [matMenuTriggerFor]="userMenu">
+        <mat-icon aria-hidden="false" aria-label="User">person</mat-icon>
+    </button>
+
+    <mat-menu #userMenu="matMenu">
+        <ng-container *ngIf="(user$ | async) as user">
+            <div class="profile-menu-text">
+                Hello <span class="username">{{user.username}}!</span>
+            </div>
+            <button mat-menu-item (click)="logout()">Sign Out</button>
+        </ng-container>
+        <button mat-menu-item *ngIf="!(user$ | async)" [routerLink]="['/auth']">Sign In</button>
+    </mat-menu>
+</mat-toolbar>
+
 <router-outlet></router-outlet>
