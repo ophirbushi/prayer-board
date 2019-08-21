@@ -1,25 +1,32 @@
 const { PrayerRequest } = require('../db/prayer-request');
 const { Board } = require('../db/board');
+const { User } = require('../db/user');
 
 module.exports = async (req, res) => {
-  const { boardId, title, description } = req.body;
+  const {
+    boardId, title, description, userId
+  } = req.body;
 
-  if (!boardId || !title || !description) {
+  if (!boardId || !title || !description || !userId) {
     return res.sendStatus(400);
   }
 
   try {
-    const board = await Board.findById(boardId);
+    const [board, user] = await Promise.all([Board.findById(boardId), User.findById(userId)]);
 
-    if (!board) {
+    if (!board || !user) {
       return res.sendStatus(404);
     }
 
     const prayerRequest = new PrayerRequest({ title, description });
-    board.prayerRequestIds = board.prayerRequestIds.concat(prayerRequest._id);
-    await Promise.all([prayerRequest.save(), board.save()]);
+    board.prayerRequests = board.prayerRequests.concat(prayerRequest._id);
+    user.prayerRequests = user.prayerRequests.concat(prayerRequest._id);
+
+    await Promise.all([prayerRequest.save(), board.save(), user.save()]);
+
     return res.send(prayerRequest);
   } catch (err) {
+    console.error(err);
     return res.sendStatus(500);
   }
 };

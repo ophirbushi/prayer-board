@@ -1,4 +1,4 @@
-const { Board } = require('../db/board');
+const { Board } = require('../../db/board');
 
 module.exports = async (req, res) => {
   const { id } = req.params;

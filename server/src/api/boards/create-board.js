@@ -1,5 +1,5 @@
-const { Board } = require('../db/board');
-const { User } = require('../db/user');
+const { Board } = require('../../db/board');
+const { User } = require('../../db/user');
 
 module.exports = async (req, res) => {
   const { userId, boardName } = req.body;
@@ -17,13 +17,13 @@ module.exports = async (req, res) => {
 
     const board = new Board({
       name: boardName,
-      adminUserId: userId,
-      userIds: [userId]
+      adminUser: userId,
+      users: [userId]
     });
 
     await board.save();
 
-    user.boardIds.push(board._id);
+    user.boards.push(board._id);
     await user.save();
 
     return res.send(board);
