@@ -5,6 +5,7 @@ import { HomeRoutingModule } from './home-routing.module';
 import { FormsModule } from '@angular/forms';
 import { HomeResolve } from './home.resolve';
 import { RouterModule } from '@angular/router';
+import { MatButtonModule, MatListModule, MatCardModule } from '@angular/material';
 
 @NgModule({
   declarations: [HomeComponent],
@@ -12,7 +13,10 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     FormsModule,
     HomeRoutingModule,
-    RouterModule
+    RouterModule,
+    MatButtonModule,
+    MatListModule,
+    MatCardModule
   ],
   providers: [HomeResolve]
 })

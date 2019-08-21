@@ -1,0 +1,23 @@
+.username {
+  font-weight: bold;
+}
+
+.board-card {
+  margin-bottom: 25px;
+}
+
+.create-board-btn {
+  height: 40px;
+}
+
+.home-top-container {
+  margin-top: 25px;
+  margin-bottom: 45px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  h2 {
+    margin: 0;
+  }
+}

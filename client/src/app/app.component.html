@@ -11,9 +11,9 @@
             <div class="profile-menu-text">
                 Hello <span class="username">{{user.username}}!</span>
             </div>
-            <button mat-menu-item (click)="logout()">Sign Out</button>
+            <button mat-menu-item (click)="logout()">Sign out</button>
         </ng-container>
-        <button mat-menu-item *ngIf="!(user$ | async)" [routerLink]="['/auth']">Sign In</button>
+        <button mat-menu-item *ngIf="!(user$ | async)" [routerLink]="['/auth']">Sign in</button>
     </mat-menu>
 </mat-toolbar>
 

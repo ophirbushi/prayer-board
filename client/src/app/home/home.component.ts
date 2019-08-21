@@ -15,7 +15,7 @@ import { Toast } from '../shared/lib/toast/toast.service';
 export class HomeComponent implements OnInit {
 
   user$: Observable<User> = this.state.select('user');
-  boards$: Observable<Board>;
+  boards$: Observable<Board[]>;
   newBoardName: string;
 
   constructor(private boardService: BoardService,
