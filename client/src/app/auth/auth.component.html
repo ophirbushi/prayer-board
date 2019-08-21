@@ -1,7 +1,9 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-        <label>Username</label>
-        <input type="text" formControlName="username" />
-    </div>
-    <button type="submit">Submit</button>
+<h1 class="app-h1">Login or Register</h1>
+
+<form class="app-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <mat-form-field class="app-form-field">
+        <input matInput placeholder="Username" formControlName="username">
+        <mat-error>Username's length should be at least 4 characters.</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Submit</button>
 </form>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppState } from '../app-state';
 import { Toast } from '../shared/lib/toast/toast.service';
@@ -12,7 +12,7 @@ import { UsersService } from '../shared/users.service';
 })
 export class AuthComponent implements OnInit {
   form = new FormGroup({
-    username: new FormControl()
+    username: new FormControl(null, [Validators.required, Validators.minLength(4)])
   });
 
   constructor(

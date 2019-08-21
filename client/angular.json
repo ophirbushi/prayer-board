@@ -31,7 +31,8 @@
             "styles": [
               "src/reset.css",
               "src/styles.scss",
-              "src/material-theme.scss"
+              "src/material-theme.scss",
+              "node_modules/bootstrap/dist/css/bootstrap-grid.min.css"
             ],
             "scripts": []
           },
@@ -130,6 +131,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "client"
 }
