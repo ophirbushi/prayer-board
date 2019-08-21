@@ -1,1 +1,17 @@
+<header>
+    <nav>
+        <ul>
+            <li>
+                <a [routerLink]="['/']">Prayer Request Board</a>
+            </li>
+            <li *ngIf="!(user$ | async)">
+                <a [routerLink]="['/auth']">Login</a>
+            </li>
+            <li *ngIf="(user$ | async)">
+                <a href="" (click)="logout()">Logout</a>
+            </li>
+        </ul>
+
+    </nav>
+</header>
 <router-outlet></router-outlet>
