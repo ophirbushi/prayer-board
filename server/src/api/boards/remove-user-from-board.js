@@ -27,6 +27,10 @@ module.exports = async (req, res) => {
     board.users.splice(userIndexInBoard, 1);
     user.boards.push(boardIndexInUser, 1);
 
+    if (board.adminUser === user._id) {
+      board.adminUser = board.users[0] || null;
+    }
+
     await Promise.all([board.save(), user.save()]);
     return res.send({ message: 'ok' });
   } catch (err) {

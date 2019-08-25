@@ -17,6 +17,7 @@ module.exports = {
   rules: {
     'no-console': [0],
     "comma-dangle": ["error", "never"],
-    "no-underscore-dangle": [0]
+    "no-underscore-dangle": [0],
+    "prefer-destructuring": [0]
   },
 };
