@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { BoardComponent } from './board.component';
 import { BoardRoutingModule } from './board-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatChipsModule, MatButtonModule, MatIconModule, MatDialogModule, MatInputModule } from '@angular/material';
+import { MatChipsModule, MatButtonModule, MatIconModule, MatDialogModule, MatInputModule, MatTableModule } from '@angular/material';
+import { PrayerRequestsTableComponent } from './prayer-requests-table/prayer-requests-table.component';
 
 
 
 @NgModule({
-  declarations: [BoardComponent],
+  declarations: [BoardComponent, PrayerRequestsTableComponent],
   imports: [
     CommonModule,
     BoardRoutingModule,
@@ -17,7 +18,8 @@ import { MatChipsModule, MatButtonModule, MatIconModule, MatDialogModule, MatInp
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    MatTableModule
   ]
 })
 export class BoardModule { }

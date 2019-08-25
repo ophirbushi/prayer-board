@@ -2,9 +2,8 @@
     <h2 class="app-h2">Board: <span class="text-bold">{{ board.name }}</span></h2>
 
     <mat-chip-list aria-label="Board Users">
-        <mat-chip class="user-item"
-            *ngFor="let user of board.users.concat([{username: 'abc'}, {username:'123'}, {username:'190'}])"
-            [class.admin]="isAdmin(user)" [selected]="isAdmin(user) ? true : false">
+        <mat-chip class="user-item" *ngFor="let user of board.users" [class.admin]="isAdmin(user)"
+            [selected]="isAdmin(user) ? true : false">
             {{ user.username }}</mat-chip>
     </mat-chip-list>
 
@@ -12,7 +11,9 @@
         <mat-icon>add</mat-icon>
     </button>
 
-    <table>
+    <app-prayer-requests-table [userId]="user._id" [dataSource]="requests" (deleteClick)="deleteRequest($event)">
+    </app-prayer-requests-table>
+    <!-- <table>
         <thead>
             <tr>
                 <th>Name</th>
@@ -29,7 +30,7 @@
                 <td><button *ngIf="request.user?._id === user._id" (click)="deleteRequest(i)">Delete</button></td>
             </tr>
         </tbody>
-    </table>
+    </table> -->
 </ng-container>
 
 
