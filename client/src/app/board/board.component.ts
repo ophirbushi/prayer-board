@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { PrayerRequestService } from '../shared/prayer-requests.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -8,6 +8,7 @@ import { Toast } from '../shared/lib/toast/toast.service';
 import { Subject, Observable } from 'rxjs';
 import { AppState } from '../app-state';
 import { Board, User } from '../shared/models';
+import { MatDialog } from '@angular/material';
 
 @Component({
   selector: 'app-board',
@@ -15,6 +16,7 @@ import { Board, User } from '../shared/models';
   styleUrls: ['./board.component.scss']
 })
 export class BoardComponent implements OnInit, OnDestroy {
+  @ViewChild('addPrayerRequestFormTpl', { static: true }) addPrayerRequestFormTpl: TemplateRef<any>;
   board$: Observable<Board>;
   form = new FormGroup({
     title: new FormControl(null, Validators.required),
@@ -29,7 +31,8 @@ export class BoardComponent implements OnInit, OnDestroy {
     private state: AppState,
     private route: ActivatedRoute,
     private prayerRequestService: PrayerRequestService,
-    private toast: Toast
+    private toast: Toast,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -45,7 +48,11 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.componentDestroy.complete();
   }
 
-  createPrayerRequest() {
+  openAddPrayerRequestDialog() {
+    this.dialog.open(this.addPrayerRequestFormTpl);
+  }
+
+  createPrayerRequest() {debugger
     const { value } = this.form;
 
     const boardId = snapshot(this.route.paramMap).get('id');

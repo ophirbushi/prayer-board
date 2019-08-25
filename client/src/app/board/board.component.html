@@ -1,26 +1,16 @@
 <ng-container *ngIf="board$ | async as board">
-    <p>{{ board.name}}</p>
+    <h2 class="app-h2">Board: <span class="text-bold">{{ board.name }}</span></h2>
 
-    <div class="users-row">
-        <h3>Board Users</h3>
-        <ul class="users-list">
-            <li class="user-item" *ngFor="let user of board.users" [class.admin]="isAdmin(user)">
-                {{ user.username }}</li>
-        </ul>
-    </div>
+    <mat-chip-list aria-label="Board Users">
+        <mat-chip class="user-item"
+            *ngFor="let user of board.users.concat([{username: 'abc'}, {username:'123'}, {username:'190'}])"
+            [class.admin]="isAdmin(user)" [selected]="isAdmin(user) ? true : false">
+            {{ user.username }}</mat-chip>
+    </mat-chip-list>
 
-    <form [formGroup]="form" (ngSubmit)="createPrayerRequest()">
-        <h3>Add Prayer Request</h3>
-        <div>
-            <label>Title</label>
-            <input formControlName="title" />
-        </div>
-        <div>
-            <label>Description</label>
-            <textarea formControlName="description"></textarea>
-        </div>
-        <button type="submit" [disabled]="!form.valid">Add Prayer Request</button>
-    </form>
+    <button mat-mini-fab class="add-btn" (click)="openAddPrayerRequestDialog()">
+        <mat-icon>add</mat-icon>
+    </button>
 
     <table>
         <thead>
@@ -41,3 +31,26 @@
         </tbody>
     </table>
 </ng-container>
+
+
+<ng-template #addPrayerRequestFormTpl>
+    <h3 mat-dialog-title>Add Prayer Request</h3>
+
+    <div mat-dialog-content>
+        <form [formGroup]="form" (ngSubmit)="createPrayerRequest()">
+            <mat-form-field>
+                <input placeholder="Title" matInput formControlName="title">
+                <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <textarea placeholder="Description" matInput formControlName="description"></textarea>
+                <mat-error>This field is required.</mat-error>
+            </mat-form-field>
+        </form>
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-button matDialogClose>Cancel</button>
+        <button mat-button matDialogClose (click)="createPrayerRequest()" [disabled]="!form.valid">Submit</button>
+    </div>
+</ng-template>

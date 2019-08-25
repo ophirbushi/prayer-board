@@ -6,7 +6,7 @@ import { User, Board } from '../shared/models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, takeUntil, take } from 'rxjs/operators';
 import { Toast } from '../shared/lib/toast/toast.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -21,6 +21,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   newBoardForm = new FormGroup({
     boardName: new FormControl(null, Validators.required)
   });
+  private dialogRef: MatDialogRef<any>;
   private destroy = new Subject();
 
   constructor(private boardService: BoardService,
@@ -46,6 +47,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       const { boardName } = this.newBoardForm.value;
       const board = await this.boardService.createBoard({ userId: user._id, boardName })
         .toPromise();
+      if (this.dialogRef) {
+        this.dialogRef.close();
+      }
       this.router.navigate(['/board', board._id]);
     } catch (err) {
       this.toast.show('An error occured', { type: 'error' });
@@ -53,7 +57,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   createBoardPopup() {
-    this.dialog.open(this.newBoardPopupTpl).beforeClosed().pipe(
+    const dialogRef = this.dialogRef = this.dialog.open(this.newBoardPopupTpl);
+
+    dialogRef.beforeClosed().pipe(
       takeUntil(this.destroy),
       take(1)
     ).subscribe(() => this.newBoardForm.reset());

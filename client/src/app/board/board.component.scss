@@ -18,25 +18,19 @@ form {
   }
 }
 
-.users-row {
-  background-color: #aaaaaa;
-  overflow: auto;
+mat-chip-list {
+  display: block;
+  margin-bottom: 15px;
 }
 
-.users-list {
-  list-style: none;
-  display: flex;
-  padding: 0;
+mat-form-field {
+  width: 100%;
 }
 
-.user-item {
-  margin: 0 5px;
-}
 
-.admin {
-  font-weight: bold;
-
-  &:after{
-    content: ' (admin)'
-  }
+.add-btn {
+  position: absolute;
+  top: 0;
+  right: -5px;
+  transform: translateX(-50%);
 }
