@@ -35,7 +35,11 @@ mat-form-field {
   transform: translateX(-50%);
 }
 
-
 app-prayer-requests-table {
+  margin-top: 30px;
+}
+
+.requests-header,
+.empty-board {
   margin-top: 30px;
 }

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BoardComponent } from './board.component';
 import { BoardRoutingModule } from './board-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatChipsModule, MatButtonModule, MatIconModule, MatDialogModule, MatInputModule, MatTableModule } from '@angular/material';
+import { MatChipsModule, MatButtonModule, MatIconModule, MatDialogModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule } from '@angular/material';
 import { PrayerRequestsTableComponent } from './prayer-requests-table/prayer-requests-table.component';
 
 
@@ -19,7 +19,9 @@ import { PrayerRequestsTableComponent } from './prayer-requests-table/prayer-req
     MatIconModule,
     MatDialogModule,
     MatInputModule,
-    MatTableModule
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule
   ]
 })
 export class BoardModule { }

@@ -11,8 +11,13 @@
         <mat-icon>add</mat-icon>
     </button>
 
-    <app-prayer-requests-table [userId]="user._id" [requests]="requests" (deleteClick)="deleteRequest($event)">
-    </app-prayer-requests-table>
+    <p class="empty-board" *ngIf="!requests?.length">This board is empty. Click the + button in order to add new prayer requests.</p>
+
+    <ng-container *ngIf="requests?.length">
+        <h3 class="app-h3 requests-header">Prayer Requests:</h3>
+        <app-prayer-requests-table [userId]="user._id" [requests]="requests" (deleteClick)="deleteRequest($event)">
+        </app-prayer-requests-table>
+    </ng-container>
     <!-- <table>
         <thead>
             <tr>

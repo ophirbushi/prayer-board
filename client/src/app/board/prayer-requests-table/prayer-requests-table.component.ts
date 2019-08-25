@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 
 @Component({
   selector: 'app-prayer-requests-table',
@@ -7,6 +7,8 @@ import { MatTableDataSource } from '@angular/material';
   styleUrls: ['./prayer-requests-table.component.scss']
 })
 export class PrayerRequestsTableComponent implements OnInit {
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @Input() userId: string;
   private _requests = [];
   get requests(): any[] { return this._requests; }
@@ -21,7 +23,8 @@ export class PrayerRequestsTableComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   onDeleteClick(index: number) {
