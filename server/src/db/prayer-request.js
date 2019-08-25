@@ -4,8 +4,9 @@ const prayerRequestSchema = new mongoose.Schema({
   title: String,
   description: String,
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  status: { type: String, default: 'new' },
-  createdAt: { type: Date, default: Date.now() }
+  status: { type: String, default: 'new' }
+}, {
+  timestamps: true
 });
 
 const PrayerRequest = mongoose.model('PrayerRequest', prayerRequestSchema);

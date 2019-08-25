@@ -12,7 +12,10 @@ module.exports = async (req, res) => {
     }
 
     if (deep) {
-      board = await board.populate('users').populate({ path: 'prayerRequests', populate: 'user' }).execPopulate();
+      board = await board
+        .populate('users')
+        .populate({ path: 'prayerRequests', populate: 'user' })
+        .execPopulate();
     }
 
     return res.send(board);

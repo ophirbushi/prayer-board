@@ -1,4 +1,4 @@
-const greet = require('./greet');
+const greet = require('./greet/greet');
 
 const createUser = require('./users/create-user');
 const getUser = require('./users/get-user');

@@ -5,6 +5,8 @@ const boardSchema = new Schema({
   adminUser: { type: Schema.Types.ObjectId, ref: 'User' },
   users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   prayerRequests: [{ type: Schema.Types.ObjectId, ref: 'PrayerRequest' }]
+}, {
+  timestamps: true
 });
 
 const Board = model('Board', boardSchema);
