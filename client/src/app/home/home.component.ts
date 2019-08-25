@@ -5,8 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import { User, Board } from '../shared/models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, takeUntil, take } from 'rxjs/operators';
-import { Toast } from '../shared/lib/toast/toast.service';
-import { MatDialog, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -28,7 +27,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private state: AppState,
     private route: ActivatedRoute,
     private router: Router,
-    private toast: Toast,
+    private snackbar: MatSnackBar,
     private dialog: MatDialog
   ) { }
 
@@ -52,7 +51,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
       this.router.navigate(['/board', board._id]);
     } catch (err) {
-      this.toast.show('An error occured', { type: 'error' });
+      this.snackbar.open('An error occured', 'OK', { duration: 4000 });
     }
   }
 

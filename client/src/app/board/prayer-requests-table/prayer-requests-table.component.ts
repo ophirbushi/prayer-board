@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-prayer-requests-table',
@@ -7,7 +8,13 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 })
 export class PrayerRequestsTableComponent implements OnInit {
   @Input() userId: string;
-  @Input() dataSource = [];
+  private _requests = [];
+  get requests(): any[] { return this._requests; }
+  @Input() set requests(value: any[]) {
+    this._requests = value;
+    this.dataSource.data = value;
+  }
+  dataSource = new MatTableDataSource(this._requests);
   @Output() deleteClick = new EventEmitter<number>();
   displayedColumns: string[] = ['username', 'title', 'description', 'actions'];
 

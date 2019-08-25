@@ -11,7 +11,7 @@
         <mat-icon>add</mat-icon>
     </button>
 
-    <app-prayer-requests-table [userId]="user._id" [dataSource]="requests" (deleteClick)="deleteRequest($event)">
+    <app-prayer-requests-table [userId]="user._id" [requests]="requests" (deleteClick)="deleteRequest($event)">
     </app-prayer-requests-table>
     <!-- <table>
         <thead>

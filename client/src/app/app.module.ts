@@ -7,9 +7,8 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AuthModule } from './auth/auth.module';
-import { ToastModule } from './shared/lib/toast/toast.module';
 
-import { MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule } from '@angular/material';
+import { MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule, MatSnackBarModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -21,7 +20,7 @@ import { MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule } from 
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     AuthModule,
-    ToastModule,
+    MatSnackBarModule,
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,

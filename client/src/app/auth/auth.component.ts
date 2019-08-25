@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppState } from '../app-state';
-import { Toast } from '../shared/lib/toast/toast.service';
 import { UsersService } from '../shared/users.service';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-auth',
@@ -18,7 +18,7 @@ export class AuthComponent implements OnInit {
   constructor(
     private router: Router,
     private state: AppState,
-    private toast: Toast,
+    private snackbar: MatSnackBar,
     private usersService: UsersService
   ) { }
 
@@ -33,7 +33,7 @@ export class AuthComponent implements OnInit {
       this.state.set('user', user);
       this.router.navigate(['/']);
     } catch (err) {
-      this.toast.show('An error occured', { type: 'error' });
+      this.snackbar.open('An error occured', 'OK', { duration: 4000 });
     }
   }
 

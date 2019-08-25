@@ -4,11 +4,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { snapshot } from '../shared/utils/snapshot';
 import { take, takeUntil, pluck } from 'rxjs/operators';
-import { Toast } from '../shared/lib/toast/toast.service';
 import { Subject, Observable } from 'rxjs';
 import { AppState } from '../app-state';
 import { Board, User } from '../shared/models';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-board',
@@ -31,7 +30,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     private state: AppState,
     private route: ActivatedRoute,
     private prayerRequestService: PrayerRequestService,
-    private toast: Toast,
+    private snackbar: MatSnackBar,
     private dialog: MatDialog
   ) { }
 
@@ -64,11 +63,11 @@ export class BoardComponent implements OnInit, OnDestroy {
         takeUntil(this.componentDestroy)
       )
       .subscribe(request => {
-        this.toast.show('Request saved');
+        this.snackbar.open('Request saved', 'OK', { duration: 4000 });
         this.form.reset();
-        this.requests.push({ ...request, user: this.user });
+        this.requests = this.requests.concat({ ...request, user: this.user });
       }, err => {
-        this.toast.show('An error occured', { type: 'error' });
+        this.snackbar.open('An error occured', 'OK', { duration: 4000 });
         console.error(err);
       });
   }
@@ -81,8 +80,9 @@ export class BoardComponent implements OnInit, OnDestroy {
     try {
       await this.prayerRequestService.delete(this.requests[index]._id).toPromise();
       this.requests.splice(index, 1);
+      this.requests = this.requests.slice();
     } catch (err) {
-      this.toast.show('An error occured', { type: 'error' });
+      this.snackbar.open('An error occured', 'OK', { duration: 4000 });
       console.error(err);
     }
   }
