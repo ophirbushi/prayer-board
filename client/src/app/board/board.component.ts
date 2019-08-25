@@ -52,7 +52,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     this.dialog.open(this.addPrayerRequestFormTpl);
   }
 
-  createPrayerRequest() {debugger
+  createPrayerRequest() {
     const { value } = this.form;
 
     const boardId = snapshot(this.route.paramMap).get('id');
