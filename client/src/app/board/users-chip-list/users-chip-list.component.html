@@ -1,11 +1,12 @@
-<mat-form-field>
+<mat-form-field [class.not-admin]="!isAdmin">
     <mat-chip-list #chipList
                    aria-label="Board Users">
         <mat-chip class="user-item"
                   *ngFor="let username of usernames; let i = index;"
+                  [selected]="adminUser?.username === username"
                   [selectable]="true"
                   [removable]="false">
-            {{ username }}
+            <span>{{ username }}</span> <span *ngIf="adminUser?.username === username">&nbsp;(Board admin)</span>
             <mat-icon matChipRemove
                       (click)="showRemoveUserDialog(i)"
                       *ngIf="isAdmin">cancel</mat-icon>
@@ -23,7 +24,11 @@
 <ng-template #removeUserDialogTpl>
 
     <div mat-dialog-content>
-        <div style="padding: 10px 0;">Are you sure you want to remove <span class="text-bold">{{ usernameToBeRemoved }}</span> from this board?
+        <div style="padding: 10px 0;">Are you sure you want to remove
+            <span *ngIf="user?.username === usernameToBeRemoved">yourself</span>
+            <span class="text-bold"
+                  *ngIf="user?.username !== usernameToBeRemoved">{{ usernameToBeRemoved }}</span>
+            from this board?
         </div>
     </div>
 
@@ -32,6 +37,7 @@
                 matDialogClose>Cancel</button>
         <button mat-button
                 color="warn"
-                matDialogClose (click)="remove(usernameToBeRemoved)">Remove</button>
+                matDialogClose
+                (click)="remove(usernameToBeRemoved)">Remove</button>
     </div>
 </ng-template>

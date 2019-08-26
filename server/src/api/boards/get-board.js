@@ -14,6 +14,7 @@ module.exports = async (req, res) => {
     if (deep) {
       board = await board
         .populate('users')
+        .populate('adminUser')
         .populate({ path: 'prayerRequests', populate: 'user' })
         .execPopulate();
     }

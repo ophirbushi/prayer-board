@@ -3,7 +3,8 @@
 
     <app-users-chip-list [boardId]="board._id"
                          [usernames]="usernames$ | async"
-                         [isAdmin]="true"></app-users-chip-list>
+                         [adminUser]="board.adminUser"
+                         [user]="user"></app-users-chip-list>
 
     <button mat-mini-fab
             class="add-btn"

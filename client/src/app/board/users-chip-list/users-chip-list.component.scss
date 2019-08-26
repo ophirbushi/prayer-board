@@ -3,5 +3,14 @@
 
   mat-form-field {
     width: 100%;
+
+    &.not-admin {
+
+      ::ng-deep {
+        .mat-form-field-underline {
+          display: none;
+        }
+      }
+    }
   }
 }

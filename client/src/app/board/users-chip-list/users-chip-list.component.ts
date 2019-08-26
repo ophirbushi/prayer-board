@@ -2,6 +2,8 @@ import { Component, OnInit, Input, ViewChild, TemplateRef } from '@angular/core'
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatChipInputEvent, MatSnackBar, MatDialog } from '@angular/material';
 import { BoardService } from 'src/app/shared/board.service';
+import { User } from 'src/app/shared/models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-users-chip-list',
@@ -10,19 +12,23 @@ import { BoardService } from 'src/app/shared/board.service';
 })
 export class UsersChipListComponent implements OnInit {
   @ViewChild('removeUserDialogTpl', { static: true }) removeUserDialogTpl: TemplateRef<any>;
-  @Input() isAdmin: boolean;
+  @Input() adminUser: User;
   @Input() usernames: string[];
   @Input() boardId: string;
+  @Input() user: User;
   usernameToBeRemoved: string;
   readonly chiplistSeperatorKeyCodes = [ENTER, COMMA];
+  isAdmin: boolean;
 
   constructor(
     private boardService: BoardService,
     private snackbar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit() {
+    this.isAdmin = this.user._id === this.adminUser._id;
   }
 
   showRemoveUserDialog(index: number) {
@@ -37,6 +43,9 @@ export class UsersChipListComponent implements OnInit {
         .toPromise();
       const index = this.usernames.indexOf(username);
       this.usernames.splice(index, 1);
+      if (this.user && this.user.username === username) {
+        this.router.navigate(['/']);
+      }
     } catch (err) {
       this.snackbar.open('An error occured', 'OK');
     }
