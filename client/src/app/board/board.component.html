@@ -20,7 +20,7 @@
         <h3 class="app-h3 requests-header">Prayer Requests:</h3>
         <app-prayer-requests-table [userId]="user._id"
                                    [requests]="requests"
-                                   (deleteClick)="deleteRequest($event)">
+                                   (deleteClick)="openDeleteRequestDialog($event)">
         </app-prayer-requests-table>
     </ng-container>
 </ng-container>
@@ -54,5 +54,20 @@
                 matDialogClose
                 (click)="createPrayerRequest()"
                 [disabled]="!form.valid">Submit</button>
+    </div>
+</ng-template>
+
+
+<ng-template #deleteRequestConfirmTpl>
+    <div mat-dialog-content>
+        <div style="padding: 10px 0;">Are you sure?</div>
+    </div>
+
+    <div mat-dialog-actions>
+        <button mat-button
+                matDialogClose>Cancel</button>
+        <button mat-button
+                [matDialogClose]="'yes'"
+                color="warn">Delete</button>
     </div>
 </ng-template>

@@ -3,7 +3,7 @@ import { PrayerRequestService } from '../shared/prayer-requests.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { snapshot } from '../shared/utils/snapshot';
-import { take, takeUntil, pluck, map } from 'rxjs/operators';
+import { take, takeUntil, pluck, map, filter } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { AppState } from '../app-state';
 import { Board, User } from '../shared/models';
@@ -16,6 +16,7 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 })
 export class BoardComponent implements OnInit, OnDestroy {
   @ViewChild('addPrayerRequestFormTpl', { static: true }) addPrayerRequestFormTpl: TemplateRef<any>;
+  @ViewChild('deleteRequestConfirmTpl', { static: true }) deleteRequestConfirmTpl: TemplateRef<any>;
   board$: Observable<Board>;
   usernames$: Observable<string[]>;
   form = new FormGroup({
@@ -88,6 +89,16 @@ export class BoardComponent implements OnInit, OnDestroy {
       this.snackbar.open('An error occured', 'OK', { duration: 4000 });
       console.error(err);
     }
+  }
+
+  openDeleteRequestDialog(index: number) {
+    this.dialog.open(this.deleteRequestConfirmTpl).beforeClosed().pipe(
+      takeUntil(this.componentDestroy),
+      take(1),
+      filter(result => result === 'yes')
+    ).subscribe(() => {
+      this.deleteRequest(index);
+    });
   }
 
 }
