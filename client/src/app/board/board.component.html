@@ -1,41 +1,27 @@
 <ng-container *ngIf="board$ | async as board">
     <h2 class="app-h2">Board: <span class="text-bold">{{ board.name }}</span></h2>
 
-    <mat-chip-list aria-label="Board Users">
-        <mat-chip class="user-item" *ngFor="let user of board.users" [class.admin]="isAdmin(user)"
-            [selected]="isAdmin(user) ? true : false">
-            {{ user.username }}</mat-chip>
-    </mat-chip-list>
+    <app-users-chip-list [boardId]="board._id"
+                         [usernames]="usernames$ | async"
+                         [isAdmin]="true"></app-users-chip-list>
 
-    <button mat-mini-fab class="add-btn" (click)="openAddPrayerRequestDialog()">
+    <button mat-mini-fab
+            class="add-btn"
+            (click)="openAddPrayerRequestDialog()">
         <mat-icon>add</mat-icon>
     </button>
 
-    <p class="empty-board" *ngIf="!requests?.length">This board is empty. Click the + button in order to add new prayer requests.</p>
+    <p class="empty-board"
+       *ngIf="!requests?.length">This board is empty. Click the + button in order to add new
+        prayer requests.</p>
 
     <ng-container *ngIf="requests?.length">
         <h3 class="app-h3 requests-header">Prayer Requests:</h3>
-        <app-prayer-requests-table [userId]="user._id" [requests]="requests" (deleteClick)="deleteRequest($event)">
+        <app-prayer-requests-table [userId]="user._id"
+                                   [requests]="requests"
+                                   (deleteClick)="deleteRequest($event)">
         </app-prayer-requests-table>
     </ng-container>
-    <!-- <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let request of requests; let i = index;">
-                <td>{{ request.user?.username }}</td>
-                <td>{{ request.title }}</td>
-                <td>{{ request.description }}</td>
-                <td><button *ngIf="request.user?._id === user._id" (click)="deleteRequest(i)">Delete</button></td>
-            </tr>
-        </tbody>
-    </table> -->
 </ng-container>
 
 
@@ -43,20 +29,29 @@
     <h3 mat-dialog-title>Add Prayer Request</h3>
 
     <div mat-dialog-content>
-        <form [formGroup]="form" (ngSubmit)="createPrayerRequest()">
+        <form [formGroup]="form"
+              (ngSubmit)="createPrayerRequest()">
             <mat-form-field>
-                <input placeholder="Title" matInput formControlName="title">
+                <input placeholder="Title"
+                       matInput
+                       formControlName="title">
                 <mat-error>This field is required.</mat-error>
             </mat-form-field>
             <mat-form-field>
-                <textarea placeholder="Description" matInput formControlName="description"></textarea>
+                <textarea placeholder="Description"
+                          matInput
+                          formControlName="description"></textarea>
                 <mat-error>This field is required.</mat-error>
             </mat-form-field>
         </form>
     </div>
 
     <div mat-dialog-actions>
-        <button mat-button matDialogClose>Cancel</button>
-        <button mat-button matDialogClose (click)="createPrayerRequest()" [disabled]="!form.valid">Submit</button>
+        <button mat-button
+                matDialogClose>Cancel</button>
+        <button mat-button
+                matDialogClose
+                (click)="createPrayerRequest()"
+                [disabled]="!form.valid">Submit</button>
     </div>
 </ng-template>

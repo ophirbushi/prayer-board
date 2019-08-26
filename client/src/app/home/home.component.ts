@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { map, takeUntil, take } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { BoardSettingsDialogComponent } from './board-settings-dialog/board-settings-dialog.component';
 
 @Component({
   selector: 'app-home',
@@ -62,6 +63,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy),
       take(1)
     ).subscribe(() => this.newBoardForm.reset());
+  }
+
+  onBoardSettingsClick(event: MouseEvent) {
+    event.stopPropagation();
+    event.preventDefault();
   }
 
 }

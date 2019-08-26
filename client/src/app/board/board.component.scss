@@ -20,7 +20,6 @@ form {
 
 mat-chip-list {
   display: block;
-  margin-bottom: 15px;
 }
 
 mat-form-field {
@@ -42,4 +41,9 @@ app-prayer-requests-table {
 .requests-header,
 .empty-board {
   margin-top: 30px;
+}
+
+
+app-users-chip-list {
+  width: 100%;
 }

@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { BoardComponent } from './board.component';
 import { BoardRoutingModule } from './board-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatChipsModule, MatButtonModule, MatIconModule, MatDialogModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule } from '@angular/material';
+import { MatChipsModule, MatButtonModule, MatIconModule, MatDialogModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatAutocompleteModule } from '@angular/material';
 import { PrayerRequestsTableComponent } from './prayer-requests-table/prayer-requests-table.component';
+import { UsersChipListComponent } from './users-chip-list/users-chip-list.component';
 
 
 
 @NgModule({
-  declarations: [BoardComponent, PrayerRequestsTableComponent],
+  declarations: [BoardComponent, PrayerRequestsTableComponent, UsersChipListComponent],
   imports: [
     CommonModule,
     BoardRoutingModule,
@@ -21,7 +22,8 @@ import { PrayerRequestsTableComponent } from './prayer-requests-table/prayer-req
     MatInputModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatAutocompleteModule
   ]
 })
 export class BoardModule { }

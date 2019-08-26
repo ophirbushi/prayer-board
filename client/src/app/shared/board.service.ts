@@ -23,4 +23,12 @@ export class BoardService {
 
         return this.http.get<Board>(`${this.baseUrl}/${boardId}`, { params });
     }
+
+    addUserToBoard({ boardId, username }) {
+        return this.http.put(`${this.baseUrl}/${boardId}/add-user`, { username });
+    }
+
+    removeUserFromBoard({ boardId, username }) {
+        return this.http.put(`${this.baseUrl}/${boardId}/remove-user`, { username });
+    }
 }

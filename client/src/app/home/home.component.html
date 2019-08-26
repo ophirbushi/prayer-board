@@ -18,6 +18,9 @@
             <a [routerLink]="['/board', board._id]">
                 <mat-card class="board-card" [routerLink]="['/']">
                     {{board.name}}
+                    <button mat-icon-button [matMenuTriggerFor]="boardMenu" (click)="onBoardSettingsClick($event)">
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
                 </mat-card>
             </a>
         </div>
@@ -33,3 +36,7 @@
         <button mat-raised-button color="primary" type="submit" [disabled]="!newBoardForm.valid">Submit</button>
     </form>
 </ng-template>
+
+<mat-menu #boardMenu="matMenu">
+    <button mat-menu-item >Remove yourself from board</button>
+</mat-menu>

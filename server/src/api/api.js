@@ -23,7 +23,7 @@ module.exports = (app) => {
   app.post('/api/v1/boards/create', createBoard);
   app.get('/api/v1/boards/:id', getBoard);
   app.put('/api/v1/boards/:id/add-user', addUserToBoard);
-  app.delete('/api/v1/boards/:id/remove-user', removeUserFromBoard);
+  app.put('/api/v1/boards/:id/remove-user', removeUserFromBoard);
 
   // prayer requests:
   app.post('/api/v1/prayer-requests/create', createPrayerRequest);

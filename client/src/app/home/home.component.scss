@@ -3,7 +3,16 @@
 }
 
 .board-card {
+  position: relative;
   margin-bottom: 25px;
+
+  button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
 }
 
 .create-board-btn {

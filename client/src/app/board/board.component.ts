@@ -3,7 +3,7 @@ import { PrayerRequestService } from '../shared/prayer-requests.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { snapshot } from '../shared/utils/snapshot';
-import { take, takeUntil, pluck } from 'rxjs/operators';
+import { take, takeUntil, pluck, map } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { AppState } from '../app-state';
 import { Board, User } from '../shared/models';
@@ -17,13 +17,13 @@ import { MatDialog, MatSnackBar } from '@angular/material';
 export class BoardComponent implements OnInit, OnDestroy {
   @ViewChild('addPrayerRequestFormTpl', { static: true }) addPrayerRequestFormTpl: TemplateRef<any>;
   board$: Observable<Board>;
+  usernames$: Observable<string[]>;
   form = new FormGroup({
     title: new FormControl(null, Validators.required),
     description: new FormControl(null, Validators.required)
   });
   requests = [];
   user: User = this.state.get('user');
-
   private componentDestroy = new Subject();
 
   constructor(
@@ -35,7 +35,10 @@ export class BoardComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.board$ = this.route.data.pipe(pluck('board'));
+    const board$ = this.board$ = this.route.data.pipe(pluck('board'));
+    this.usernames$ = board$.pipe(
+      map(board => board.users.map(user => user.username))
+    );
 
     this.board$.pipe(
       takeUntil(this.componentDestroy)
