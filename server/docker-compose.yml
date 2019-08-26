@@ -1,11 +1,13 @@
 version: '3'
 services:
-  prayer-board-service:
-    build: .
+  app-server:
+    build: ./app-server
     depends_on: 
       - db
+      - identity
     environment:
       - databaseURI=mongodb://db/prayer-board
+      - identityServiceBaseUrl=http://identity:8081
     ports: 
       - "8080:8080"
 
@@ -13,3 +15,10 @@ services:
     image: mongo
     ports:
       - "27017:27017"
+
+  identity:
+    build: ./identity-service
+    depends_on:
+      - db
+    environment:
+      - databaseURI=mongodb://db/identity
