@@ -9,6 +9,7 @@ import { environment } from '../environments/environment';
 import { AuthModule } from './auth/auth.module';
 
 import { MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule, MatSnackBarModule } from '@angular/material';
+import { httpInterceptorProviders } from './http-interceptors';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,7 @@ import { MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule, MatSna
     MatButtonModule,
     MatMenuModule
   ],
-  providers: [],
+  providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

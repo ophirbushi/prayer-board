@@ -1,13 +1,45 @@
 <div class="row">
     <div class="col-12">
-        <h1 class="app-h1">Login or Register</h1>
 
-        <form class="app-form" [formGroup]="form" (ngSubmit)="onSubmit()">
-            <mat-form-field class="app-form-field">
-                <input matInput placeholder="Username" formControlName="username">
-                <mat-error>Username's length should be at least 4 characters.</mat-error>
-            </mat-form-field>
-            <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Submit</button>
-        </form>
+        <mat-tab-group [selectedIndex]="visited ? 0 : 1">
+
+            <mat-tab label="Sign In">
+                <form class="app-form" [formGroup]="signinForm" (ngSubmit)="onSigninSubmit()">
+                    <mat-form-field class="app-form-field">
+                        <input matInput placeholder="Username" formControlName="username">
+                        <mat-error>Username's length should be at least 4 characters.</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="app-form-field">
+                        <input matInput placeholder="Password" formControlName="password" type="password">
+                        <mat-error>Password's length should be at least 6 characters.</mat-error>
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" type="submit"
+                        [disabled]="!signinForm.valid">Submit</button>
+                </form>
+            </mat-tab>
+
+            <mat-tab label="Sign Up">
+
+                <form class="app-form" [formGroup]="signupForm" (ngSubmit)="onSignupSubmit()">
+                    <mat-form-field class="app-form-field">
+                        <input matInput placeholder="Username" formControlName="username">
+                        <mat-error>Username's length should be at least 4 characters.</mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="app-form-field">
+                        <input matInput placeholder="Password" formControlName="password" type="password">
+                        <mat-error>Password's length should be at least 6 characters.</mat-error>
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" type="submit"
+                        [disabled]="!signupForm.valid">Submit</button>
+                </form>
+
+            </mat-tab>
+
+        </mat-tab-group>
+
+
+
     </div>
+
+
 </div>

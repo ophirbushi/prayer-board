@@ -10,9 +10,9 @@ export class UsersService {
 
     constructor(private http: HttpClient) { }
 
-    loginRegister(payload: { username: string }) {
-        return this.http.post<User>(`${this.baseUrl}/create`, payload);
-    }
+    // loginRegister(payload: { username: string }) {
+    //     return this.http.post<User>(`${this.baseUrl}/create`, payload);
+    // }
 
     getUser({ userId }: { userId: string }, populate: Array<keyof User> = []) {
         const params = new HttpParams().set('populate', populate.toString());

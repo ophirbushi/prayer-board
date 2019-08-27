@@ -43,6 +43,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   logout() {
+    localStorage.removeItem('Authorization');
     this.state.set('user', null);
     setTimeout(() => {
       location.href = location.href;

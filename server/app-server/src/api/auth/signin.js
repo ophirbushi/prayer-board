@@ -19,7 +19,13 @@ const signin = async (req, res) => {
     });
 
     const user = await User.findOne({ username });
-    return res.header('Authorization', `Bearer ${token}`).send(user);
+
+    res.set({
+      'Access-Control-Expose-Headers': 'Authorization',
+      Authorization: `Bearer ${token}`
+    });
+
+    return res.send(user);
   } catch (err) {
     if (err.statusCode === 401) {
       return res.status(err.statusCode).json({ message: 'bad signin attempt' });

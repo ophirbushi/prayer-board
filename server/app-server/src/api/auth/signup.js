@@ -21,7 +21,12 @@ const signup = async (req, res) => {
     const user = new User({ username });
     await user.save();
 
-    return res.header('Authorization', `Bearer ${token}`).send(user);
+    res.set({
+      'Access-Control-Expose-Headers': 'Authorization',
+      Authorization: `Bearer ${token}`
+    });
+
+    return res.send(user);
   } catch (err) {
     if (err.statusCode === 409) {
       return res.status(err.statusCode).json({ message: 'user already exists' });
