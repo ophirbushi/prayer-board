@@ -18,6 +18,7 @@ module.exports = {
     'no-console': [0],
     "comma-dangle": ["error", "never"],
     "no-underscore-dangle": [0],
-    "prefer-destructuring": [0]
+    "prefer-destructuring": [0],
+    "newline-per-chained-call": 0
   },
 };

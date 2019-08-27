@@ -1,4 +1,8 @@
 const greet = require('./greet/greet');
+const identityServiceGreet = require('./greet/identity-service-greet');
+
+const { signup, signupValidators } = require('./auth/signup');
+const { signin, signinValidators } = require('./auth/signin');
 
 const createUser = require('./users/create-user');
 const getUser = require('./users/get-user');
@@ -14,6 +18,11 @@ const deletePrayerRequest = require('./prayer-requests/delete-prayer-request');
 
 module.exports = (app) => {
   app.get('/', greet);
+  app.get('/identity', identityServiceGreet);
+
+  // auth:
+  app.post('/api/v1/auth/signup', signupValidators, signup);
+  app.post('/api/v1/auth/signin', signinValidators, signin);
 
   // users:
   app.post('/api/v1/users/create', createUser);
