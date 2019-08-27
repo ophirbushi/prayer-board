@@ -5,6 +5,9 @@ const authRequired = async (req, res, next) => {
   const unauthorizedError = new Error('unauthorized');
   unauthorizedError.status = 401;
 
+  const sessionTimeoutError = new Error('session timeout');
+  sessionTimeoutError.status = 440;
+
   const authHeader = req.header('Authorization');
 
   if (!authHeader) {
@@ -30,7 +33,7 @@ const authRequired = async (req, res, next) => {
       case 401:
         return next(unauthorizedError);
       case 440:
-        return next(440);
+        return next(sessionTimeoutError);
       default:
         return next(err);
     }
