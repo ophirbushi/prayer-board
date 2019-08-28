@@ -6,7 +6,7 @@ const cors = require('cors');
 const swaggerUi = require('swagger-ui-express');
 const config = require('../config/config');
 const api = require('../api/api');
-const swaggerDocument = require('../swagger/swagger.json');
+const swaggerDocument = require('../swagger.json');
 
 const start = () => {
   mongoose.connect(config.databaseURI, { useNewUrlParser: true });
