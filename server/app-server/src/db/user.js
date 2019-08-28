@@ -1,14 +1,13 @@
-const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const userSchema = new mongoose.Schema({
+const userSchema = new Schema({
   username: String,
-  boards: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Board' }],
-  prayerRequests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'PrayerRequest' }]
-}, {
-  timestamps: true
-});
+  boards: [{ type: Schema.Types.ObjectId, ref: 'Board' }],
+  prayerRequests: [{ type: Schema.Types.ObjectId, ref: 'PrayerRequest' }],
+  mailbox: { type: Schema.Types.ObjectId, ref: 'UserMailbox' }
+}, { timestamps: true });
 
-const User = mongoose.model('User', userSchema);
+const User = model('User', userSchema);
 
 module.exports = {
   User
