@@ -10,7 +10,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
     readonly baseUrl = 'http://localhost:8080/api/v1/auth';
-    private readonly USER_METADATA = 'userId';
+    private readonly USER_METADATA = 'user-metadata';
     private readonly AUTHORIZATION = 'Authorization';
     private readonly VISITED = 'visited';
     get userMetadata(): UserMetadata { return JSON.parse(localStorage.getItem(this.USER_METADATA) || 'null'); }
@@ -55,8 +55,8 @@ export class AuthService {
         localStorage.setItem(this.VISITED, '1');
         localStorage.setItem(this.AUTHORIZATION, header);
 
-        const { _id, username } = response.body;
-        const userMetadata: UserMetadata = { _id, username };
+        const { _id, username, mailbox } = response.body;
+        const userMetadata: UserMetadata = { _id, username, mailbox };
         localStorage.setItem(this.USER_METADATA, JSON.stringify(userMetadata));
     }
 

@@ -2,6 +2,7 @@ const request = require('request-promise-native');
 const { validationResult, check } = require('express-validator');
 const { identityServiceBaseUrl } = require('../../config/config');
 const { User } = require('../../db/user');
+const { UserMailbox } = require('../../db/user-mailbox');
 
 const signup = async (req, res) => {
   const errors = validationResult(req);
@@ -19,7 +20,8 @@ const signup = async (req, res) => {
     });
 
     const user = new User({ username });
-    await user.save();
+    user.mailbox = new UserMailbox({ user: user._id });
+    await Promise.all([user.save(), user.mailbox.save()]);
 
     res.set({
       'Access-Control-Expose-Headers': 'Authorization',
