@@ -3,14 +3,14 @@ import {
     HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse
 } from '@angular/common/http';
 
-import { Observable, of, EMPTY, throwError } from 'rxjs';
-import { tap, filter, catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { AuthService } from '../shared/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-    constructor(private router: Router) { }
+    constructor(private authService: AuthService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const authorizationHeader = localStorage.getItem('Authorization') || '';
@@ -22,10 +22,8 @@ export class AuthInterceptor implements HttpInterceptor {
         return next.handle(authReq).pipe(
             catchError((err) => {
                 if (err instanceof HttpErrorResponse && err.status === 440) {
-                    localStorage.removeItem('user');
-                    localStorage.removeItem('Authorization');
                     alert('session expired');
-                    this.router.navigate(['/auth']);
+                    this.authService.signout();
                 }
                 return throwError(err);
             })

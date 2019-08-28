@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AppState } from '../app-state';
 import { MatSnackBar } from '@angular/material';
 import { AuthService } from '../shared/auth.service';
 
@@ -26,7 +25,6 @@ export class AuthComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private state: AppState,
     private snackbar: MatSnackBar,
     private authService: AuthService
   ) { }
@@ -38,8 +36,7 @@ export class AuthComponent implements OnInit {
     const { username, password } = this.signupForm.value;
 
     try {
-      const user = await this.authService.signup({ username, password }).toPromise();
-      this.state.set('user', user);
+      await this.authService.signup({ username, password }).toPromise();
       this.router.navigate(['/']);
     } catch (err) {
       if (err && err.status === 409) {
@@ -54,8 +51,7 @@ export class AuthComponent implements OnInit {
     const { username, password } = this.signinForm.value;
 
     try {
-      const user = await this.authService.signin({ username, password }).toPromise();
-      this.state.set('user', user);
+      await this.authService.signin({ username, password }).toPromise();
       this.router.navigate(['/']);
     } catch (err) {
       if (err && err.status === 401) {

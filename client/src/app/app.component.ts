@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AppState } from './app-state';
 import { Subject, Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { User } from './shared/models';
+import { UserMetadata } from './shared/models';
+import { AuthService } from './shared/auth.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -11,30 +11,13 @@ import { User } from './shared/models';
 })
 export class AppComponent implements OnInit, OnDestroy {
   title = 'client';
-  user$: Observable<User>;
+  user$: Observable<UserMetadata>;
   private destroy = new Subject();
 
-  constructor(private state: AppState) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
-    this.user$ = this.state.select('user');
-    
-    const user = JSON.parse(localStorage.getItem('user') || 'null');
-    if (user) {
-      this.state.set('user', user);
-    }
-
-    this.state.select('user')
-      .pipe(
-        takeUntil(this.destroy)
-      )
-      .subscribe(user => {
-        if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
-        } else {
-          localStorage.removeItem('user');
-        }
-      });
+    this.user$ = this.authService.isAuthenticated$.pipe(map(() => this.authService.userMetadata));
   }
 
   ngOnDestroy() {
@@ -43,10 +26,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    localStorage.removeItem('Authorization');
-    this.state.set('user', null);
-    setTimeout(() => {
-      location.href = location.href;
-    });
+    this.authService.signout();
   }
 }

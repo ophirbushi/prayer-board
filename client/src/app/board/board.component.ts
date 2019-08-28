@@ -5,9 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { snapshot } from '../shared/utils/snapshot';
 import { take, takeUntil, pluck, map, filter } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
-import { AppState } from '../app-state';
-import { Board, User } from '../shared/models';
+import { Board, User, UserMetadata } from '../shared/models';
 import { MatDialog, MatSnackBar } from '@angular/material';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'app-board',
@@ -24,15 +24,15 @@ export class BoardComponent implements OnInit, OnDestroy {
     description: new FormControl(null, Validators.required)
   });
   requests = [];
-  user: User = this.state.get('user');
   private componentDestroy = new Subject();
+  get userMetadata(): UserMetadata { return this.authService.userMetadata; }
 
   constructor(
-    private state: AppState,
     private route: ActivatedRoute,
     private prayerRequestService: PrayerRequestService,
     private snackbar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
@@ -59,7 +59,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     const { value } = this.form;
 
     const boardId = snapshot(this.route.paramMap).get('id');
-    const userId = this.state.get('user')._id;
+    const userId = this.userMetadata._id;
 
     this.prayerRequestService.create({ boardId, userId, ...value })
       .pipe(
@@ -69,7 +69,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       .subscribe(request => {
         this.snackbar.open('Request saved', 'OK', { duration: 4000 });
         this.form.reset();
-        this.requests = this.requests.concat({ ...request, user: this.user });
+        this.requests = this.requests.concat({ ...request, user: this.userMetadata });
       }, err => {
         this.snackbar.open('An error occured', 'OK', { duration: 4000 });
         console.error(err);

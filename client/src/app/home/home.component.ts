@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, TemplateRef, OnDestroy } from '@angular/core';
 import { BoardService } from '../shared/board.service';
-import { AppState } from '../app-state';
+// import { AppState } from '../app-state';
 import { Observable, Subject } from 'rxjs';
 import { User, Board } from '../shared/models';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -8,6 +8,7 @@ import { map, takeUntil, take } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { BoardSettingsDialogComponent } from './board-settings-dialog/board-settings-dialog.component';
+import { AuthService } from '../shared/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -16,7 +17,7 @@ import { BoardSettingsDialogComponent } from './board-settings-dialog/board-sett
 })
 export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('newBoardPopupTpl', { static: true }) newBoardPopupTpl: TemplateRef<any>;
-  user$: Observable<User> = this.state.select('user');
+  user$: Observable<User>;
   boards$: Observable<Board[]>;
   newBoardForm = new FormGroup({
     boardName: new FormControl(null, Validators.required)
@@ -25,7 +26,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   private destroy = new Subject();
 
   constructor(private boardService: BoardService,
-    private state: AppState,
+    // private state: AppState,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private snackbar: MatSnackBar,
@@ -33,7 +35,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.boards$ = this.route.data.pipe(map(data => data.user.boards));
+    const user$: Observable<User> = this.user$ = this.route.data.pipe(map(data => data.user));
+    this.boards$ = user$.pipe(map(user => user.boards));
   }
 
   ngOnDestroy() {
@@ -42,7 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   async addBoard() {
-    const user = this.state.get('user');
+    const user = this.route.snapshot.data['user'];
     try {
       const { boardName } = this.newBoardForm.value;
       const board = await this.boardService.createBoard({ userId: user._id, boardName })

@@ -4,7 +4,7 @@
     <app-users-chip-list [boardId]="board._id"
                          [usernames]="usernames$ | async"
                          [adminUser]="board.adminUser"
-                         [user]="user"></app-users-chip-list>
+                         [user]="userMetadata"></app-users-chip-list>
 
     <button mat-mini-fab
             class="add-btn"
@@ -18,7 +18,7 @@
 
     <ng-container *ngIf="requests?.length">
         <h3 class="app-h3 requests-header">Prayer Requests:</h3>
-        <app-prayer-requests-table [userId]="user._id"
+        <app-prayer-requests-table [userId]="userMetadata._id"
                                    [requests]="requests"
                                    (deleteClick)="openDeleteRequestDialog($event)">
         </app-prayer-requests-table>

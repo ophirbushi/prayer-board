@@ -2,8 +2,11 @@ export interface Identifiable {
     _id: string;
 }
 
-export interface User extends Identifiable {
+export interface UserMetadata extends Identifiable {
     username: string;
+}
+
+export interface User extends UserMetadata {
     boards: Board[];
 }
 
