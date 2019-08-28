@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "Prayer Requests Board App Server",
-    "description": "Still work in progress...",
+    "description": "Note: Some fields are annotated as strings, while they are references to other objects. In order to get the referenced objects instead of the id references please view the query params available for each specific request if available.",
     "version": "1.0.0"
   },
   "host": "localhost:8080",
@@ -97,6 +97,19 @@
             "name": "Authorization",
             "type": "string",
             "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "populate",
+            "description": "Comma-seperated list of field names to populate (Fields which are references to other objects. Mentioned fields will return the object itself rather than a reference to it.)",
+            "type": "string",
+            "example": "boards"
           }
         ],
         "produces": [
@@ -104,7 +117,10 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
           }
         }
       }
@@ -121,6 +137,24 @@
             "name": "Authorization",
             "type": "string",
             "required": true
+          },
+          {
+            "in": "body",
+            "required": true,
+            "schema": {
+              "required": [
+                "boardName",
+                "userId"
+              ],
+              "properties": {
+                "boardName": {
+                  "type": "string"
+                },
+                "userId": {
+                  "type": "string"
+                }
+              }
+            }
           }
         ],
         "produces": [
@@ -128,7 +162,10 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Board"
+            }
           }
         }
       }
@@ -145,6 +182,18 @@
             "name": "Authorization",
             "type": "string",
             "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "deep",
+            "type": "boolean",
+            "description": "Get fields with objects instead of references. 'prayerRequests' field also gets its 'user' field populated."
           }
         ],
         "produces": [
@@ -152,7 +201,10 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/Board"
+            }
           }
         }
       }
@@ -169,6 +221,18 @@
             "name": "Authorization",
             "type": "string",
             "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "username",
+            "required": true,
+            "type": "string"
           }
         ],
         "produces": [
@@ -193,6 +257,17 @@
             "name": "Authorization",
             "type": "string",
             "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "required": true,
+            "schema": {}
           }
         ],
         "produces": [
@@ -217,6 +292,31 @@
             "name": "Authorization",
             "type": "string",
             "required": true
+          },
+          {
+            "in": "body",
+            "schema": {
+              "required": [
+                "userId",
+                "boardId",
+                "title",
+                "description"
+              ],
+              "properties": {
+                "boardId": {
+                  "type": "string"
+                },
+                "userId": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
           }
         ],
         "produces": [
@@ -224,10 +324,15 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/PrayerRequest"
+            }
           }
         }
-      },
+      }
+    },
+    "/prayer-requests/{id}": {
       "delete": {
         "tags": [
           "prayer-requests"
@@ -239,6 +344,12 @@
             "name": "Authorization",
             "type": "string",
             "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string"
           }
         ],
         "produces": [
@@ -253,6 +364,19 @@
     }
   },
   "definitions": {
+    "PrayerRequest": {
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        }
+      }
+    },
     "AuthData": {
       "required": [
         "username",
@@ -287,8 +411,26 @@
     },
     "Board": {
       "properties": {
+        "_id": {
+          "type": "string"
+        },
         "name": {
           "type": "string"
+        },
+        "adminUser": {
+          "type": "string"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "prayerRequests": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     }
