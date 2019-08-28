@@ -26,7 +26,6 @@ module.exports = (app) => {
   app.post('/api/v1/auth/signin', signinValidators, signin);
 
   // users:
-  // app.post('/api/v1/users/create', createUser);
   app.get('/api/v1/users/:id', authRequired, getUser);
 
   // boards:
