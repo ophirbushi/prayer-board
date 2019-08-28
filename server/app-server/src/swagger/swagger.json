@@ -1,0 +1,296 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Prayer Requests Board App Server",
+    "description": "Still work in progress...",
+    "version": "1.0.0"
+  },
+  "host": "localhost:8080",
+  "basePath": "/api/v1",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Sign up a new user.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "AuthData",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AuthData"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Authorization": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "409": {
+            "description": "User already exists."
+          }
+        }
+      }
+    },
+    "/auth/signin": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Sign in a user.",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "AuthData",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AuthData"
+            }
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "Authorization": {
+                "type": "string"
+              }
+            },
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          },
+          "401": {
+            "description": "Bad signin attempt."
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Get user data.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/boards/create": {
+      "post": {
+        "tags": [
+          "boards"
+        ],
+        "summary": "Create a new board.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/boards/{id}": {
+      "get": {
+        "tags": [
+          "boards"
+        ],
+        "summary": "Get board data.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/boards/{id}/add-user": {
+      "put": {
+        "tags": [
+          "boards"
+        ],
+        "summary": "Add a user to a board.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/boards/{id}/remove-user": {
+      "put": {
+        "tags": [
+          "boards"
+        ],
+        "summary": "Remove a user from a board.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/prayer-requests/create": {
+      "post": {
+        "tags": [
+          "prayer-requests"
+        ],
+        "summary": "Post a new prayer request.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "prayer-requests"
+        ],
+        "summary": "Delete a prayer request.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AuthData": {
+      "required": [
+        "username",
+        "password"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "minLength": 4
+        },
+        "password": {
+          "type": "string",
+          "minLength": 6
+        }
+      }
+    },
+    "User": {
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "username": {
+          "type": "string"
+        },
+        "boards": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "Board": {
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
