@@ -8,7 +8,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AuthModule } from './auth/auth.module';
 
-import { MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule, MatSnackBarModule } from '@angular/material';
+import { MatToolbarModule, MatIconModule, MatButtonModule, MatMenuModule, MatSnackBarModule, MatProgressSpinnerModule } from '@angular/material';
 import { httpInterceptorProviders } from './http-interceptors';
 
 @NgModule({
@@ -25,7 +25,8 @@ import { httpInterceptorProviders } from './http-interceptors';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    MatMenuModule
+    MatMenuModule,
+    MatProgressSpinnerModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

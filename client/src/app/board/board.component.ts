@@ -3,11 +3,12 @@ import { PrayerRequestService } from '../shared/prayer-requests.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { snapshot } from '../shared/utils/snapshot';
-import { take, takeUntil, pluck, map, filter } from 'rxjs/operators';
+import { take, takeUntil, pluck, map, filter, finalize } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { Board, User, UserMetadata } from '../shared/models';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { AuthService } from '../shared/auth.service';
+import { LoaderService } from '../shared/loader.service';
 
 @Component({
   selector: 'app-board',
@@ -32,7 +33,8 @@ export class BoardComponent implements OnInit, OnDestroy {
     private prayerRequestService: PrayerRequestService,
     private snackbar: MatSnackBar,
     private dialog: MatDialog,
-    private authService: AuthService
+    private authService: AuthService,
+    private loaderService: LoaderService
   ) { }
 
   ngOnInit() {
@@ -61,10 +63,13 @@ export class BoardComponent implements OnInit, OnDestroy {
     const boardId = snapshot(this.route.paramMap).get('id');
     const userId = this.userMetadata._id;
 
+    this.loaderService.setLoader(true);
+
     this.prayerRequestService.create({ boardId, userId, ...value })
       .pipe(
+        takeUntil(this.componentDestroy),
         take(1),
-        takeUntil(this.componentDestroy)
+        finalize(() => this.loaderService.setLoader(false))
       )
       .subscribe(request => {
         this.snackbar.open('Request saved', 'OK', { duration: 4000 });
@@ -81,12 +86,15 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   async deleteRequest(index: number) {
+    this.loaderService.setLoader(true);
     try {
       await this.prayerRequestService.delete(this.requests[index]._id).toPromise();
       this.requests.splice(index, 1);
       this.requests = this.requests.slice();
+      this.loaderService.setLoader(false);
     } catch (err) {
       this.snackbar.open('An error occured', 'OK', { duration: 4000 });
+      this.loaderService.setLoader(false);
       console.error(err);
     }
   }

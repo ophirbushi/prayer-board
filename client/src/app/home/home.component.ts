@@ -1,14 +1,12 @@
 import { Component, OnInit, ViewChild, TemplateRef, OnDestroy } from '@angular/core';
 import { BoardService } from '../shared/board.service';
-// import { AppState } from '../app-state';
 import { Observable, Subject } from 'rxjs';
 import { User, Board } from '../shared/models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, takeUntil, take } from 'rxjs/operators';
 import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { BoardSettingsDialogComponent } from './board-settings-dialog/board-settings-dialog.component';
-import { AuthService } from '../shared/auth.service';
+import { LoaderService } from '../shared/loader.service';
 
 @Component({
   selector: 'app-home',
@@ -26,12 +24,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   private destroy = new Subject();
 
   constructor(private boardService: BoardService,
-    // private state: AppState,
-    private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private snackbar: MatSnackBar,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private loaderService: LoaderService
   ) { }
 
   ngOnInit() {
@@ -45,17 +42,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   async addBoard() {
+    this.loaderService.setLoader(true);
+    if (this.dialogRef) {
+      this.dialogRef.close();
+    }
     const user = this.route.snapshot.data['user'];
     try {
       const { boardName } = this.newBoardForm.value;
       const board = await this.boardService.createBoard({ userId: user._id, boardName })
         .toPromise();
-      if (this.dialogRef) {
-        this.dialogRef.close();
-      }
       this.router.navigate(['/board', board._id]);
     } catch (err) {
       this.snackbar.open('An error occured', 'OK', { duration: 4000 });
+      this.loaderService.setLoader(false);
     }
   }
 

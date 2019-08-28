@@ -20,3 +20,7 @@
 <main class="container">
     <router-outlet></router-outlet>
 </main>
+
+<div class="spinner-container" *ngIf="loading$ | async" [class.display-loader]="displayLoader$ | async">
+    <mat-spinner *ngIf="displaySpinner$ | async"></mat-spinner>
+</div>
