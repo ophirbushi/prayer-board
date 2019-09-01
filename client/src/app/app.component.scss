@@ -44,3 +44,12 @@ main {
     opacity: 1;
   }
 }
+
+.notifications-btn {
+  ::ng-deep {
+    .mat-badge-content {
+      top: -5px !important;
+      right: -5px !important;
+    }
+  }
+}

@@ -1,16 +1,11 @@
 const request = require('request-promise-native');
-const { validationResult, check } = require('express-validator');
+const { check } = require('express-validator');
 const { identityServiceBaseUrl } = require('../../config/config');
 const { User } = require('../../db/user');
 const { UserMailbox } = require('../../db/user-mailbox');
+const { createValidators } = require('../../utils/validators');
 
 const signup = async (req, res) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
   try {
     const { username, password } = req.body;
 
@@ -37,7 +32,7 @@ const signup = async (req, res) => {
   }
 };
 
-const signupValidators = [
+const signupValidators = createValidators([
   check('username')
     .exists().withMessage('username field is missing')
     .isLength({ min: 4 }).withMessage('username should be at least 4 characters long'),
@@ -45,7 +40,7 @@ const signupValidators = [
     .exists().withMessage('password field is missing')
     .isLength({ min: 6 }).withMessage('password should be at least 6 characters'
       + ' long')
-];
+]);
 
 module.exports = {
   signupValidators,

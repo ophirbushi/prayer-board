@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subject, Observable } from 'rxjs';
-import { UserMetadata } from './shared/models';
+import { Subject, Observable, of } from 'rxjs';
+import { UserMetadata, UserMailbox } from './shared/models';
 import { AuthService } from './shared/auth.service';
-import { map, takeUntil, switchMap, filter } from 'rxjs/operators';
+import { takeUntil, switchMap, filter, catchError, take } from 'rxjs/operators';
 import { Router, NavigationStart, NavigationEnd, NavigationError, NavigationCancel } from '@angular/router';
 import { LoaderService } from './shared/loader.service';
 import { UserNotificationsService } from './shared/user-notifications.service';
@@ -19,6 +19,7 @@ export class AppComponent implements OnInit, OnDestroy {
   loading$: Observable<boolean>; // block screen from user actions
   displayLoader$: Observable<boolean>; // display loader
   displaySpinner$: Observable<boolean>; // display spinner
+  mailbox$: Observable<UserMailbox>;
   private destroy = new Subject();
 
   constructor(private authService: AuthService,
@@ -35,15 +36,22 @@ export class AppComponent implements OnInit, OnDestroy {
     this.displayLoader$ = this.loaderService.displayLoader$;
     this.displaySpinner$ = this.loaderService.displaySpinner$;
 
-    const user$ = this.user$ = this.authService.isAuthenticated$.pipe(map(() => this.authService.userMetadata));
+    this.mailbox$ = this.state.select('mailbox');
+    
+    const user$ = this.user$ = this.authService.userMetadata$;
 
     user$.pipe(
       takeUntil(this.destroy),
       filter(user => !!user),
-      switchMap(user => this.userNotificationsService.getMailbox({ userId: user._id })),
-    ).subscribe()
-
-
+      switchMap(user => {
+        return this.userNotificationsService.getMailbox({ userId: user._id }).pipe(
+          take(1),
+          catchError(() => of(null))
+        );
+      }),
+    ).subscribe(mailbox => {
+      this.state.set('mailbox', mailbox);
+    });
   }
 
   ngOnDestroy() {

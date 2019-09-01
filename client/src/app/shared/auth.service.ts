@@ -18,7 +18,9 @@ export class AuthService {
     get visited(): boolean { return !!localStorage.getItem(this.VISITED); }
     get isAuthenticated(): boolean { return this._isAuthenticated$.value; }
     private _isAuthenticated$ = new BehaviorSubject<boolean>(!!this.userMetadata && !!this.authorizationHeader);
+    private _userMetadata$ = new BehaviorSubject<UserMetadata>(this.userMetadata);
     isAuthenticated$: Observable<boolean> = this._isAuthenticated$.asObservable();
+    userMetadata$: Observable<UserMetadata> = this._userMetadata$.asObservable();
 
     constructor(
         private http: HttpClient,
@@ -28,8 +30,11 @@ export class AuthService {
     signup({ username, password }) {
         return this.http.post<User>(`${this.baseUrl}/signup`, { username, password }, { observe: 'response' })
             .pipe(
-                tap(this.setLocalStorageValues.bind(this)),
-                tap(() => this.setIsAuth(true)),
+                tap((response) => {
+                    this.setLocalStorageValues(response);
+                    this.setIsAuth(true);
+                    this.setUsermetadata(response.body);
+                }),
                 map(response => response.body)
             );
     }
@@ -37,8 +42,11 @@ export class AuthService {
     signin({ username, password }) {
         return this.http.post<User>(`${this.baseUrl}/signin`, { username, password }, { observe: 'response' })
             .pipe(
-                tap(this.setLocalStorageValues.bind(this)),
-                tap(() => this.setIsAuth(true)),
+                tap((response) => {
+                    this.setLocalStorageValues(response);
+                    this.setIsAuth(true);
+                    this.setUsermetadata(response.body);
+                }),
                 map(response => response.body)
             );
     }
@@ -47,6 +55,7 @@ export class AuthService {
         localStorage.removeItem(this.AUTHORIZATION);
         localStorage.removeItem(this.USER_METADATA);
         this.setIsAuth(false);
+        this.setUsermetadata(null);
         this.router.navigate(['/auth']);
     }
 
@@ -62,5 +71,9 @@ export class AuthService {
 
     private setIsAuth(value: boolean) {
         this._isAuthenticated$.next(value);
+    }
+
+    private setUsermetadata(userMetadata: UserMetadata) {
+        this._userMetadata$.next(userMetadata);
     }
 }

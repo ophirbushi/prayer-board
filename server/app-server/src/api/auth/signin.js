@@ -1,15 +1,10 @@
 const request = require('request-promise-native');
-const { validationResult, check } = require('express-validator');
+const { check } = require('express-validator');
 const { identityServiceBaseUrl } = require('../../config/config');
 const { User } = require('../../db/user');
+const { createValidators } = require('../../utils/validators');
 
 const signin = async (req, res) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
   try {
     const { username, password } = req.body;
 
@@ -34,10 +29,10 @@ const signin = async (req, res) => {
   }
 };
 
-const signinValidators = [
+const signinValidators = createValidators([
   check('username').exists({ checkFalsy: true }).withMessage('username field is missing'),
   check('password').exists({ checkFalsy: true }).withMessage('password field is missing')
-];
+]);
 
 module.exports = {
   signinValidators,

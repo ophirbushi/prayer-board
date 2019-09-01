@@ -16,6 +16,7 @@ const removeUserFromBoard = require('./boards/remove-user-from-board');
 const createPrayerRequest = require('./prayer-requests/create-prayer-request');
 const deletePrayerRequest = require('./prayer-requests/delete-prayer-request');
 
+const { getUserMailbox, getUserMailboxValidators } = require('./user-notifications/get-user-mailbox');
 
 module.exports = (app) => {
   app.get('/', greet);
@@ -37,4 +38,7 @@ module.exports = (app) => {
   // prayer requests:
   app.post('/api/v1/prayer-requests/create', authRequired, createPrayerRequest);
   app.delete('/api/v1/prayer-requests/:id', authRequired, deletePrayerRequest);
+
+  // user notifications:
+  app.get('/api/v1/user-notifications/:userId/mailbox', [authRequired, getUserMailboxValidators], getUserMailbox);
 };
