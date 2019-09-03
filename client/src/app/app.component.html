@@ -1,7 +1,8 @@
 <mat-toolbar color="primary">
     <a [routerLink]="['/']">Prayer Requests Board</a>
     <span class="header-spacer"></span>
-    <button mat-icon-button class="notifications-btn" [disabled]="!(mailbox$ | async)">
+    <button mat-icon-button [routerLink]="['/user-notifications']" class="notifications-btn"
+        [disabled]="!(mailbox$ | async)">
         <mat-icon [matBadge]="(mailbox$ | async)?.unreadNotificationsCount"
             [matBadgeHidden]="!(mailbox$ | async)?.unreadNotificationsCount" matBadgePosition="above after"
             matBadgeColor="accent" matBadgeSize="small" aria-hidden="false" aria-label="User">notifications

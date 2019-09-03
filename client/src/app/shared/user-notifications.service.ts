@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { UserMailbox } from './models';
 
 @Injectable({
@@ -11,7 +11,15 @@ export class UserNotificationsService {
 
     constructor(private http: HttpClient) { }
 
-    getMailbox({ userId }) {
-        return this.http.get<UserMailbox>(`${this.baseUrl}/${userId}/mailbox`);
+    getMailbox({ userId }, fetchNotifications: boolean = false) {
+        let params = new HttpParams();
+        if (fetchNotifications) {
+            params = params.append('fetchNotifications', '1');
+        }
+        return this.http.get<UserMailbox>(`${this.baseUrl}/${userId}/mailbox`, { params });
+    }
+
+    markUserNotificationsAsRead(payload: { mailboxId: string }) {
+        return this.http.put<UserMailbox>(`${this.baseUrl}/mark-as-read`, payload);
     }
 }

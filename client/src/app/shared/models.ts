@@ -26,7 +26,8 @@ export interface UserMailbox extends Identifiable {
     unreadNotificationsCount: number;
 }
 
-export interface UserNotification {
-    text: string;
+export interface UserNotification extends Identifiable {
+    title: string;
+    description: string;
     user: User;
 }

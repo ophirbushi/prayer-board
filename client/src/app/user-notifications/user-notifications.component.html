@@ -1,0 +1,18 @@
+<h2 class="app-h2">Notifications</h2>
+
+<ng-container *ngIf="notifications$ | async as notifications; else: empty;">
+    <mat-accordion *ngIf="notifications.length">
+        <mat-expansion-panel *ngFor="let notification of notifications">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{ notification.title }}
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div>{{ notification.description }}</div>
+        </mat-expansion-panel>
+    </mat-accordion>
+</ng-container>
+
+<ng-template #empty>
+    <p>You don't have any notifications yet.</p>
+</ng-template>

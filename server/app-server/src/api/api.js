@@ -17,7 +17,11 @@ const createPrayerRequest = require('./prayer-requests/create-prayer-request');
 const deletePrayerRequest = require('./prayer-requests/delete-prayer-request');
 
 const { getUserMailbox, getUserMailboxValidators } = require('./user-notifications/get-user-mailbox');
+const { markUserNotificationsAsRead, markUserNotificationsAsReadValidators } = require('./user-notifications/mark-user-notifications-as-read');
+const { addUserNotification } = require('./user-notifications/add-user-notification');
 
+// ok
+// api
 module.exports = (app) => {
   app.get('/', greet);
   app.get('/identity', identityServiceGreet);
@@ -41,4 +45,7 @@ module.exports = (app) => {
 
   // user notifications:
   app.get('/api/v1/user-notifications/:userId/mailbox', [authRequired, getUserMailboxValidators], getUserMailbox);
+  app.put('/api/v1/user-notifications/mark-as-read', [authRequired, markUserNotificationsAsReadValidators], markUserNotificationsAsRead);
+
+  app.post('/internal-api/v1/user-notifications/:userId', addUserNotification);
 };

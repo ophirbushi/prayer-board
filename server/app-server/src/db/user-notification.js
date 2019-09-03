@@ -1,7 +1,8 @@
 const { Schema, model } = require('mongoose');
 
 const userNotificationSchema = new Schema({
-  text: String,
+  title: String,
+  description: String,
   user: { type: Schema.Types.ObjectId, ref: 'User' },
   userMailbox: { type: Schema.Types.ObjectId, ref: 'UserMailbox' }
 }, { timestamps: true });
