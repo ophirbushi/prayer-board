@@ -18,4 +18,7 @@ export class PrayerRequestService {
         return this.http.delete(`${this.baseUrl}/${id}`);
     }
 
+    notifyPraying({ prayingUserId, prayerRequestId }) {
+        return this.http.post(`${this.baseUrl}/${prayerRequestId}/notify-praying`, { prayingUserId });
+    }
 }

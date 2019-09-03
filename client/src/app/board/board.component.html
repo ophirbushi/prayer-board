@@ -20,6 +20,7 @@
         <h3 class="app-h3 requests-header">Prayer Requests:</h3>
         <app-prayer-requests-table [userId]="userMetadata._id"
                                    [requests]="requests"
+                                   (prayingClick)="onPrayingClick($event)"
                                    (deleteClick)="openDeleteRequestDialog($event)">
         </app-prayer-requests-table>
     </ng-container>

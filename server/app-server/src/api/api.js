@@ -15,6 +15,7 @@ const removeUserFromBoard = require('./boards/remove-user-from-board');
 
 const createPrayerRequest = require('./prayer-requests/create-prayer-request');
 const deletePrayerRequest = require('./prayer-requests/delete-prayer-request');
+const { notifyPraying, notifyPrayingValidators } = require('./prayer-requests/notify-praying');
 
 const { getUserMailbox, getUserMailboxValidators } = require('./user-notifications/get-user-mailbox');
 const { markUserNotificationsAsRead, markUserNotificationsAsReadValidators } = require('./user-notifications/mark-user-notifications-as-read');
@@ -42,10 +43,12 @@ module.exports = (app) => {
   // prayer requests:
   app.post('/api/v1/prayer-requests/create', authRequired, createPrayerRequest);
   app.delete('/api/v1/prayer-requests/:id', authRequired, deletePrayerRequest);
+  app.post('/api/v1/prayer-requests/:id/notify-praying', [authRequired, notifyPrayingValidators], notifyPraying);
 
   // user notifications:
   app.get('/api/v1/user-notifications/:userId/mailbox', [authRequired, getUserMailboxValidators], getUserMailbox);
   app.put('/api/v1/user-notifications/mark-as-read', [authRequired, markUserNotificationsAsReadValidators], markUserNotificationsAsRead);
 
+  // internal api for development only:
   app.post('/internal-api/v1/user-notifications/:userId', addUserNotification);
 };

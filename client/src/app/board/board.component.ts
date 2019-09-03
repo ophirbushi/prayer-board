@@ -30,11 +30,11 @@ export class BoardComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
-    private prayerRequestService: PrayerRequestService,
+    private prayerRequestsService: PrayerRequestService,
     private snackbar: MatSnackBar,
     private dialog: MatDialog,
     private authService: AuthService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
   ) { }
 
   ngOnInit() {
@@ -65,7 +65,7 @@ export class BoardComponent implements OnInit, OnDestroy {
 
     this.loaderService.setLoader(true);
 
-    this.prayerRequestService.create({ boardId, userId, ...value })
+    this.prayerRequestsService.create({ boardId, userId, ...value })
       .pipe(
         takeUntil(this.componentDestroy),
         take(1),
@@ -88,7 +88,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   async deleteRequest(index: number) {
     this.loaderService.setLoader(true);
     try {
-      await this.prayerRequestService.delete(this.requests[index]._id).toPromise();
+      await this.prayerRequestsService.delete(this.requests[index]._id).toPromise();
       this.requests.splice(index, 1);
       this.requests = this.requests.slice();
       this.loaderService.setLoader(false);
@@ -107,6 +107,14 @@ export class BoardComponent implements OnInit, OnDestroy {
     ).subscribe(() => {
       this.deleteRequest(index);
     });
+  }
+
+  onPrayingClick(index: number) {
+    this.prayerRequestsService.notifyPraying({ prayingUserId: this.userMetadata._id, prayerRequestId: this.requests[index]._id })
+      .pipe(
+        takeUntil(this.componentDestroy)
+      )
+      .subscribe();
   }
 
 }

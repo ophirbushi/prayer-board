@@ -18,6 +18,7 @@ export class PrayerRequestsTableComponent implements OnInit {
   }
   dataSource = new MatTableDataSource(this._requests);
   @Output() deleteClick = new EventEmitter<number>();
+  @Output() prayingClick = new EventEmitter<number>();
   displayedColumns: string[] = ['username', 'title', 'description', 'actions'];
 
   constructor() { }
@@ -29,6 +30,10 @@ export class PrayerRequestsTableComponent implements OnInit {
 
   onDeleteClick(index: number) {
     this.deleteClick.emit(index);
+  }
+
+  onPrayingClick(index: number) {
+    this.prayingClick.emit(index);
   }
 
 }
