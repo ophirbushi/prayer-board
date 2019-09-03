@@ -10,16 +10,17 @@ export class PrayerRequestsTableComponent implements OnInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   @Input() userId: string;
-  private _requests = [];
-  get requests(): any[] { return this._requests; }
-  @Input() set requests(value: any[]) {
-    this._requests = value;
+  private _prayerRequests = [];
+  get prayerRequests(): any[] { return this._prayerRequests; }
+  @Input() set prayerRequests(value: any[]) {
+    this._prayerRequests = value;
     this.dataSource.data = value;
   }
-  dataSource = new MatTableDataSource(this._requests);
+  dataSource = new MatTableDataSource(this._prayerRequests);
   @Output() deleteClick = new EventEmitter<number>();
   @Output() prayingClick = new EventEmitter<number>();
   displayedColumns: string[] = ['username', 'title', 'description', 'actions'];
+  requestsThatUserHasAlreadyClickedOnPrayingButton: { [id: string]: boolean } = {};
 
   constructor() { }
 
@@ -34,6 +35,9 @@ export class PrayerRequestsTableComponent implements OnInit {
 
   onPrayingClick(index: number) {
     this.prayingClick.emit(index);
+    if (this.prayerRequests[index]) {
+      this.requestsThatUserHasAlreadyClickedOnPrayingButton[this.prayerRequests[index]._id] = true;
+    }
   }
 
 }

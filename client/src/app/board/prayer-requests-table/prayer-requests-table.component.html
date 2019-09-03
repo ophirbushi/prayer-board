@@ -21,7 +21,9 @@
             <button mat-flat-button color="warn" *ngIf="element.user?._id === userId; else: notOwnPrayerActionsTpl;"
                 (click)="onDeleteClick(i)">Delete</button>
             <ng-template #notOwnPrayerActionsTpl>
-                <button mat-flat-button color="primary" (click)="onPrayingClick(i)">Praying</button>
+                <button mat-flat-button color="primary"
+                    [disabled]="requestsThatUserHasAlreadyClickedOnPrayingButton[prayerRequests[i]?._id]"
+                    (click)="onPrayingClick(i)">Praying</button>
             </ng-template>
         </td>
     </ng-container>

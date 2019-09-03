@@ -24,7 +24,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     title: new FormControl(null, Validators.required),
     description: new FormControl(null, Validators.required)
   });
-  requests = [];
+  prayerRequests = [];
   private componentDestroy = new Subject();
   get userMetadata(): UserMetadata { return this.authService.userMetadata; }
 
@@ -45,7 +45,7 @@ export class BoardComponent implements OnInit, OnDestroy {
 
     this.board$.pipe(
       takeUntil(this.componentDestroy)
-    ).subscribe(board => this.requests = board.prayerRequests);
+    ).subscribe(board => this.prayerRequests = board.prayerRequests);
   }
 
   ngOnDestroy() {
@@ -74,7 +74,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       .subscribe(request => {
         this.snackbar.open('Request saved', 'OK', { duration: 4000 });
         this.form.reset();
-        this.requests = this.requests.concat({ ...request, user: this.userMetadata });
+        this.prayerRequests = this.prayerRequests.concat({ ...request, user: this.userMetadata });
       }, err => {
         this.snackbar.open('An error occured', 'OK', { duration: 4000 });
         console.error(err);
@@ -88,9 +88,9 @@ export class BoardComponent implements OnInit, OnDestroy {
   async deleteRequest(index: number) {
     this.loaderService.setLoader(true);
     try {
-      await this.prayerRequestsService.delete(this.requests[index]._id).toPromise();
-      this.requests.splice(index, 1);
-      this.requests = this.requests.slice();
+      await this.prayerRequestsService.delete(this.prayerRequests[index]._id).toPromise();
+      this.prayerRequests.splice(index, 1);
+      this.prayerRequests = this.prayerRequests.slice();
       this.loaderService.setLoader(false);
     } catch (err) {
       this.snackbar.open('An error occured', 'OK', { duration: 4000 });
@@ -110,11 +110,14 @@ export class BoardComponent implements OnInit, OnDestroy {
   }
 
   onPrayingClick(index: number) {
-    this.prayerRequestsService.notifyPraying({ prayingUserId: this.userMetadata._id, prayerRequestId: this.requests[index]._id })
-      .pipe(
-        takeUntil(this.componentDestroy)
-      )
-      .subscribe();
+    const request = this.prayerRequests[index];
+    this.prayerRequestsService.notifyPraying({ prayingUserId: this.userMetadata._id, prayerRequestId: request._id })
+      .pipe(takeUntil(this.componentDestroy))
+      .subscribe({
+        error: () => {
+          this.snackbar.open('An error has occured. Please try again later.', 'OK');
+        }
+      });
   }
 
 }

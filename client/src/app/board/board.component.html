@@ -13,13 +13,13 @@
     </button>
 
     <p class="empty-board"
-       *ngIf="!requests?.length">This board is empty. Click the + button in order to add new
+       *ngIf="!prayerRequests?.length">This board is empty. Click the + button in order to add new
         prayer requests.</p>
 
-    <ng-container *ngIf="requests?.length">
+    <ng-container *ngIf="prayerRequests?.length">
         <h3 class="app-h3 requests-header">Prayer Requests:</h3>
         <app-prayer-requests-table [userId]="userMetadata._id"
-                                   [requests]="requests"
+                                   [prayerRequests]="prayerRequests"
                                    (prayingClick)="onPrayingClick($event)"
                                    (deleteClick)="openDeleteRequestDialog($event)">
         </app-prayer-requests-table>
