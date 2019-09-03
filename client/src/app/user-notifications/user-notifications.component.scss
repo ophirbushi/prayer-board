@@ -1,0 +1,18 @@
+.seperator {
+  flex: 1 1 auto;
+}
+
+:host {
+  mat-accordion {
+    ::ng-deep {
+    //   .mat-content {
+    //     justify-content: space-between;
+    //   }
+
+      mat-panel-description {
+        display: block;
+        text-align: right;
+      }
+    }
+  }
+}

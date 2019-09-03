@@ -7,6 +7,9 @@
                 <mat-panel-title>
                     {{ notification.title }}
                 </mat-panel-title>
+                <mat-panel-description>
+                    {{ notification.createdAt | date : 'medium' }}
+                </mat-panel-description>
             </mat-expansion-panel-header>
             <div>{{ notification.description }}</div>
         </mat-expansion-panel>

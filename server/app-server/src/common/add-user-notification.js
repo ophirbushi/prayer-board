@@ -26,7 +26,7 @@ const addUserNotification = async ({ userId, notificationTitle, notificationDesc
     description: notificationDesc
   });
 
-  mailbox.userNotifications.push(notification._id);
+  mailbox.userNotifications.unshift(notification._id);
   mailbox.unreadNotificationsCount += 1;
 
   await Promise.all([notification.save(), mailbox.save()]);
