@@ -1,10 +1,8 @@
 <mat-card>
-    <mat-card-header>
-        <mat-card-title>{{prayerRequest.title}}</mat-card-title>
-        <mat-card-subtitle>{{prayerRequest.createdAt | date: 'short'}} by:<span
-                class="text-bold">&nbsp;{{prayerRequest.user?.username}}</span>
-        </mat-card-subtitle>
-    </mat-card-header>
+    <mat-card-title>{{prayerRequest.title}}</mat-card-title>
+    <mat-card-subtitle>{{prayerRequest.createdAt | date: 'short'}} by:<span
+            class="text-bold">&nbsp;{{prayerRequest.user?.username}}</span>
+    </mat-card-subtitle>
     <mat-card-content>
         <p>{{prayerRequest.description}}</p>
     </mat-card-content>
