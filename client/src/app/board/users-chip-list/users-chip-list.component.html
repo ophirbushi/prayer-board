@@ -3,7 +3,7 @@
                    aria-label="Board Users">
         <mat-chip class="user-item"
                   *ngFor="let username of usernames; let i = index;"
-                  [selected]="adminUser?.username === username"
+                  [selected]="user?.username === username"
                   [selectable]="true"
                   [removable]="false">
             <span>{{ username }}</span> <span *ngIf="adminUser?.username === username">&nbsp;(Board admin)</span>
