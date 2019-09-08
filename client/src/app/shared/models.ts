@@ -2,6 +2,8 @@ export type Reference<T> = string | T;
 
 export interface Identifiable {
     _id: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface UserMetadata extends Identifiable {
@@ -27,6 +29,12 @@ export interface UserMailbox extends Identifiable {
 }
 
 export interface UserNotification extends Identifiable {
+    title: string;
+    description: string;
+    user: User;
+}
+
+export interface PrayerRequest extends Identifiable {
     title: string;
     description: string;
     user: User;

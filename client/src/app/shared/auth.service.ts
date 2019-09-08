@@ -65,7 +65,7 @@ export class AuthService {
         localStorage.setItem(this.AUTHORIZATION, header);
 
         const { _id, username, mailbox } = response.body;
-        const userMetadata: UserMetadata = { _id, username, mailbox };
+        const userMetadata: UserMetadata = { _id, username, mailbox } as any;
         localStorage.setItem(this.USER_METADATA, JSON.stringify(userMetadata));
     }
 

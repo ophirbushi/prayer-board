@@ -19,8 +19,8 @@ module.exports = async (req, res) => {
     }
 
     const prayerRequest = new PrayerRequest({ title, description, user: userId });
-    board.prayerRequests = board.prayerRequests.concat(prayerRequest._id);
-    user.prayerRequests = user.prayerRequests.concat(prayerRequest._id);
+    board.prayerRequests = [prayerRequest._id].concat(board.prayerRequests);
+    user.prayerRequests = [prayerRequest._id].concat(user.prayerRequests);
 
     await Promise.all([prayerRequest.save(), board.save(), user.save()]);
 

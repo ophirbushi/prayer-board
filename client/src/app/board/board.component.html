@@ -1,28 +1,27 @@
 <ng-container *ngIf="board$ | async as board">
     <h2 class="app-h2">Board: <span class="text-bold">{{ board.name }}</span></h2>
 
-    <app-users-chip-list [boardId]="board._id"
-                         [usernames]="usernames$ | async"
-                         [adminUser]="board.adminUser"
-                         [user]="userMetadata"></app-users-chip-list>
+    <app-users-chip-list [boardId]="board._id" [usernames]="usernames$ | async" [adminUser]="board.adminUser"
+        [user]="userMetadata"></app-users-chip-list>
 
-    <button mat-mini-fab
-            class="add-btn"
-            (click)="openAddPrayerRequestDialog()">
+    <button mat-mini-fab class="add-btn" (click)="openAddPrayerRequestDialog()">
         <mat-icon>add</mat-icon>
     </button>
 
-    <p class="empty-board"
-       *ngIf="!prayerRequests?.length">This board is empty. Click the + button in order to add new
+    <p class="empty-board" *ngIf="!prayerRequests?.length">This board is empty. Click the + button in order to add new
         prayer requests.</p>
 
     <ng-container *ngIf="prayerRequests?.length">
-        <h3 class="app-h3 requests-header">Prayer Requests:</h3>
-        <app-prayer-requests-table [userId]="userMetadata._id"
+        <app-prayer-request *ngFor="let request of prayerRequests; let i = index;" [prayerRequest]="request"
+            (deleteClick)="openDeleteRequestDialog(i)" (prayingClick)="onPrayingClick(i)"
+            [enablePrayingButtonSubject]="reenablePrayingButtonSubject"></app-prayer-request>
+        <!-- <app-prayer-requests-table [userId]="userMetadata._id"
                                    [prayerRequests]="prayerRequests"
                                    (prayingClick)="onPrayingClick($event)"
                                    (deleteClick)="openDeleteRequestDialog($event)">
-        </app-prayer-requests-table>
+        </app-prayer-requests-table> -->
+
+
     </ng-container>
 </ng-container>
 
@@ -31,30 +30,21 @@
     <h3 mat-dialog-title>Add Prayer Request</h3>
 
     <div mat-dialog-content>
-        <form [formGroup]="form"
-              (ngSubmit)="createPrayerRequest()">
+        <form [formGroup]="form" (ngSubmit)="createPrayerRequest()">
             <mat-form-field>
-                <input placeholder="Title"
-                       matInput
-                       formControlName="title">
+                <input placeholder="Title" matInput formControlName="title">
                 <mat-error>This field is required.</mat-error>
             </mat-form-field>
             <mat-form-field>
-                <textarea placeholder="Description"
-                          matInput
-                          formControlName="description"></textarea>
+                <textarea placeholder="Description" matInput formControlName="description"></textarea>
                 <mat-error>This field is required.</mat-error>
             </mat-form-field>
         </form>
     </div>
 
     <div mat-dialog-actions>
-        <button mat-button
-                matDialogClose>Cancel</button>
-        <button mat-button
-                matDialogClose
-                (click)="createPrayerRequest()"
-                [disabled]="!form.valid">Submit</button>
+        <button mat-button matDialogClose>Cancel</button>
+        <button mat-button matDialogClose (click)="createPrayerRequest()" [disabled]="!form.valid">Submit</button>
     </div>
 </ng-template>
 
@@ -65,10 +55,7 @@
     </div>
 
     <div mat-dialog-actions>
-        <button mat-button
-                matDialogClose>Cancel</button>
-        <button mat-button
-                [matDialogClose]="'yes'"
-                color="warn">Delete</button>
+        <button mat-button matDialogClose>Cancel</button>
+        <button mat-button [matDialogClose]="'yes'" color="warn">Delete</button>
     </div>
 </ng-template>

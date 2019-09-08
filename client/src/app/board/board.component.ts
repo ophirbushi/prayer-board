@@ -25,6 +25,7 @@ export class BoardComponent implements OnInit, OnDestroy {
     description: new FormControl(null, Validators.required)
   });
   prayerRequests = [];
+  reenablePrayingButtonSubject = new Subject<string>();
   private componentDestroy = new Subject();
   get userMetadata(): UserMetadata { return this.authService.userMetadata; }
 
@@ -115,6 +116,7 @@ export class BoardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.componentDestroy))
       .subscribe({
         error: () => {
+          this.reenablePrayingButtonSubject.next(request._id);
           this.snackbar.open('An error has occured. Please try again later.', 'OK');
         }
       });
