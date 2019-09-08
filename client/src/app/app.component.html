@@ -1,6 +1,9 @@
 <mat-toolbar color="primary">
     <a [routerLink]="['/']">Prayer Requests Board</a>
     <span class="header-spacer"></span>
+    <button mat-icon-button [matMenuTriggerFor]="themeMenu">
+        <mat-icon aria-hidden="false" aria-label="User">palette</mat-icon>
+    </button>
     <button mat-icon-button [routerLink]="['/user-notifications']" class="notifications-btn"
         [disabled]="!(mailbox$ | async)">
         <mat-icon [matBadge]="(mailbox$ | async)?.unreadNotificationsCount"
@@ -19,6 +22,14 @@
             <button mat-menu-item (click)="logout()">Sign out</button>
         </ng-container>
         <button mat-menu-item *ngIf="!(user$ | async)" [routerLink]="['/auth']">Sign in</button>
+    </mat-menu>
+    <mat-menu #themeMenu="matMenu">
+        <button mat-menu-item *ngFor="let theme of themes" (click)="onThemeSelect(theme)">
+            <div class="theme-option-container">
+                <span class="theme-option-color" [style.background-color]="theme.color"></span>
+                <div class="theme-option-text">{{ theme.name }}</div>
+            </div>
+        </button>
     </mat-menu>
 </mat-toolbar>
 

@@ -53,3 +53,18 @@ main {
     }
   }
 }
+
+.theme-option-color {
+  width: 20px;
+  height: 20px;
+  background: blue;
+}
+
+.theme-option-text {
+  margin-left: 10px;
+}
+
+.theme-option-container {
+  display: flex;
+  align-items: center;
+}

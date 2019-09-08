@@ -7,6 +7,7 @@ import { Router, NavigationStart, NavigationEnd, NavigationError, NavigationCanc
 import { LoaderService } from './shared/loader.service';
 import { UserNotificationsService } from './shared/user-notifications.service';
 import { AppState } from './app-state';
+import { appThemes, Theme } from './app-themes';
 
 @Component({
   selector: 'app-root',
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit, OnDestroy {
   displayLoader$: Observable<boolean>; // display loader
   displaySpinner$: Observable<boolean>; // display spinner
   mailbox$: Observable<UserMailbox>;
+  themes = appThemes;
   private destroy = new Subject();
 
   constructor(private authService: AuthService,
@@ -30,6 +32,8 @@ export class AppComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    document.body.classList.value = localStorage.getItem('theme');
+
     this.setupRouterEventListeners(this.router);
 
     this.loading$ = this.loaderService.loading$;
@@ -37,7 +41,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.displaySpinner$ = this.loaderService.displaySpinner$;
 
     this.mailbox$ = this.state.select('mailbox');
-    
+
     const user$ = this.user$ = this.authService.userMetadata$;
 
     user$.pipe(
@@ -61,6 +65,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   logout() {
     this.authService.signout();
+  }
+
+  onThemeSelect(theme: Theme) {
+    document.body.classList.value = theme.bodyClass;
+    localStorage.setItem('theme', theme.bodyClass);
   }
 
   private setupRouterEventListeners(router: Router) {
