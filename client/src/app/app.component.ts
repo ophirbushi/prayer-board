@@ -8,6 +8,8 @@ import { LoaderService } from './shared/loader.service';
 import { UserNotificationsService } from './shared/user-notifications.service';
 import { AppState } from './app-state';
 import { appThemes, Theme } from './app-themes';
+import { SwUpdate } from '@angular/service-worker';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -28,7 +30,9 @@ export class AppComponent implements OnInit, OnDestroy {
     private router: Router,
     private loaderService: LoaderService,
     private userNotificationsService: UserNotificationsService,
-    private state: AppState
+    private state: AppState,
+    private swUpdate: SwUpdate,
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -55,6 +59,13 @@ export class AppComponent implements OnInit, OnDestroy {
       }),
     ).subscribe(mailbox => {
       this.state.set('mailbox', mailbox);
+    });
+
+    this.swUpdate.available.pipe(
+      takeUntil(this.destroy),
+      switchMap(() => this.snackbar.open('An update is available', 'Refresh').onAction())
+    ).subscribe(() => {
+      location.href = location.href;
     });
   }
 
