@@ -21,17 +21,19 @@ $teal-light-theme: mat-light-theme($teal-light-primary, $teal-light-accent, $tea
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($teal-light-theme);
 
 
 $blue-dark-primary: mat-palette($mat-blue, 500);
 $blue-dark-accent: mat-palette($mat-orange, 500);
-
-
 // Create the theme object (a Sass map containing all of the palettes).
 $blue-dark-theme: mat-dark-theme($blue-dark-primary, $blue-dark-accent);
 
 
+$cyan-light-primary: mat-palette($mat-cyan, 600);
+$cyan-light-accent: mat-palette($mat-orange, 800);
+$cyan-light-theme: mat-light-theme($cyan-light-primary, $cyan-light-accent);
+
+@include angular-material-theme($cyan-light-theme);
 @mixin dark-theme {
   & {
     color: white;
@@ -42,4 +44,8 @@ $blue-dark-theme: mat-dark-theme($blue-dark-primary, $blue-dark-accent);
 .blue-dark-theme {
   @include dark-theme();
   @include angular-material-theme($blue-dark-theme);
+}
+
+.teal-light-theme { 
+  @include angular-material-theme($teal-light-theme);
 }

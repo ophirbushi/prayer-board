@@ -5,6 +5,7 @@ export interface Theme {
 }
 
 export const appThemes: Theme[] = [
-    { color: '#009688', name: 'Teal light', bodyClass: '' },
-    { color: '#2196f3', name: 'Blue dark', bodyClass: 'blue-dark-theme' }
+    { color: '#0097a7', name: 'Cyan light', bodyClass: '' },
+    { color: '#00acc1', name: 'Blue dark', bodyClass: 'blue-dark-theme' },
+    { color: '#009688', name: 'Teal light', bodyClass: 'teal-light-theme' }
 ];
