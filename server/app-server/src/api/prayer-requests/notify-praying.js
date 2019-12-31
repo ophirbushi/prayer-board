@@ -9,8 +9,10 @@ const notifyPraying = async (req, res) => {
   const { prayingUserId } = req.body;
 
   try {
-    const [prayerRequest, prayingUser] = await Promise.all([PrayerRequest.findById(id),
-      User.findById(prayingUserId)]);
+    const [prayerRequest, prayingUser] = await Promise.all([
+      PrayerRequest.findById(id),
+      User.findById(prayingUserId)]
+    );
     if (!prayerRequest) {
       return res.status(404).json({ message: 'could not find prayer request with provided id' });
     }
