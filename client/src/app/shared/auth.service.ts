@@ -4,12 +4,13 @@ import { User, UserMetadata } from './models';
 import { tap, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
-    readonly baseUrl = 'http://localhost:8080/api/v1/auth';
+    readonly baseUrl = `${environment.apiBaseUrl}/auth`;
     private readonly USER_METADATA = 'user-metadata';
     private readonly AUTHORIZATION = 'Authorization';
     private readonly VISITED = 'visited';

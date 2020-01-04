@@ -1,12 +1,13 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Board } from './models';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
 export class BoardService {
-    readonly baseUrl = 'http://localhost:8080/api/v1/boards';
+    readonly baseUrl = `${environment.apiBaseUrl}/boards`;
 
     constructor(private http: HttpClient) { }
 
