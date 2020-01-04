@@ -13,6 +13,6 @@ export class UsersService {
 
     getUser({ userId }: { userId: string }, populate: Array<keyof User> = []) {
         const params = new HttpParams().set('populate', populate.toString());
-        return this.http.get<User>(`${this.baseUrl} /${userId}`, { params });
+        return this.http.get<User>(`${this.baseUrl}/${userId}`, { params });
     }
 }
