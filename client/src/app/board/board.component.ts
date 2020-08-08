@@ -6,7 +6,8 @@ import { snapshot } from '../shared/utils/snapshot';
 import { take, takeUntil, pluck, map, filter, finalize } from 'rxjs/operators';
 import { Subject, Observable } from 'rxjs';
 import { Board, User, UserMetadata } from '../shared/models';
-import { MatDialog, MatSnackBar } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../shared/auth.service';
 import { LoaderService } from '../shared/loader.service';
 

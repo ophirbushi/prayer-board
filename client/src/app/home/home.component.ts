@@ -4,7 +4,8 @@ import { Observable, Subject } from 'rxjs';
 import { User, Board } from '../shared/models';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, takeUntil, take } from 'rxjs/operators';
-import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoaderService } from '../shared/loader.service';
 
