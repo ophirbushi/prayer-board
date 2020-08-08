@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { User, Board } from 'src/app/shared/models';
-import { MAT_DIALOG_DATA } from '@angular/material';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-board-settings-dialog',

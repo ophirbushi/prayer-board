@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserNotificationsComponent } from './user-notifications.component';
 import { UserNotificationsRoutingModule } from './user-notifications-routing.module';
-import { MatExpansionModule } from '@angular/material';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 
 

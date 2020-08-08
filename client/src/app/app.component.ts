@@ -9,7 +9,7 @@ import { UserNotificationsService } from './shared/user-notifications.service';
 import { AppState } from './app-state';
 import { appThemes, Theme } from './app-themes';
 import { SwUpdate } from '@angular/service-worker';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',

@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, ViewChild, TemplateRef } from '@angular/core';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
-import { MatChipInputEvent, MatSnackBar, MatDialog } from '@angular/material';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { BoardService } from 'src/app/shared/board.service';
 import { User } from 'src/app/shared/models';
 import { Router } from '@angular/router';
